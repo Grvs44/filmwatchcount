@@ -1,0 +1,10 @@
+body{
+    font-family:'Segoe UI';
+    user-select:none;
+}
+#content div{
+    border:1px solid #000;
+}
+#content form{
+    display:none;
+}
