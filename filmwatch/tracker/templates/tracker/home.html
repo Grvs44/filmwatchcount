@@ -8,7 +8,8 @@
 </head>
 <body onload="Onload()">
 <h1>Welcome, {{request.user.first_name}}</h1>
-<p><a href="{% url 'logout' %}?next=/">Logout</a>{% if request.user.is_staff %} | <a href="/admin">Admin</a>{% endif %}</p>
+<p><a href="{% url 'logout' %}?next=/">Logout</a>{% if request.user.is_staff %} | <a href="/admin/">Admin</a>{% endif %}</p>
+{% csrf_token %}
 <div id="content"></div>
 </body>
 </html>

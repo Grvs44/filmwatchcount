@@ -1,4 +1,8 @@
+var csrftoken;
 function Onload(){
+    csrfelement = document.getElementsByName("csrfmiddlewaretoken")[0]
+    csrftoken = csrfelement.value
+    csrfelement.remove()
     var watchdiv = document.createElement("div")
     var h2 = document.createElement("h2")
     h2.innerText = "Add film watch"
@@ -14,7 +18,7 @@ function Onload(){
     label.innerText = "Film: "
     var date = document.createElement("input")
     date.type = "date"
-    date.name = date
+    date.name = "date"
     date.required = true
     var label2 = document.createElement("label")
     label2.innerText = "Date: "
@@ -65,7 +69,7 @@ function Onload(){
     form.onsubmit = FormSubmit
     film = document.createElement("input")
     film.type = "text"
-    film.name = "film"
+    film.name = "name"
     film.maxLength = 30
     label = document.createElement("label")
     label.innerText = "Name: "
@@ -82,18 +86,37 @@ async function ToggleFormVisibility(e){
     if(form.style.display == "block") form.style.display = "none"
     else{
         form.style.display = "block"
-        if(form.select && form.select.children.length == 0){
-            var data = await(await fetch("/" + form.name + ".json")).json()
-            var option;
-            for(var item of data){
-                option = document.createElement("option")
-                option.recordid = item[0]
-                option.innerText = item[1]
-                form.select.appendChild(option)
-            }
-        }
+        if(form.select && form.select.children.length == 0) GetFormData(form)
     }
 }
-function FormSubmit(e){
+async function GetFormData(form){
+    var dataname;
+    switch(form.name){
+        case "watch":
+            dataname = "film"
+            break
+        case "film":
+            dataname = "group"
+            break
+    }
+    var data = await(await fetch("/" + dataname)).json()
+    var option;
+    for(var item of data){
+        option = document.createElement("option")
+        option.recordid = item[0]
+        option.innerText = item[1]
+        form.select.appendChild(option)
+    }
+}
+async function FormSubmit(e){
     e.preventDefault()
+    const formdata = new FormData(e.target)
+    formdata.set("csrfmiddlewaretoken",csrftoken)
+    if(formdata.has("select")) formdata.set("select",e.target.select.selectedOptions[0].recordid)
+    var request = await fetch("/" + e.target.name,{method:"POST",body:formdata})
+    if(request.status == 200){
+        e.target.reset()
+        GetFormData(e.target)
+    }
+    else alert(await request.text())
 }
