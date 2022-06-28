@@ -1,0 +1,9 @@
+{% extends "template.html" %}
+{% block content %}
+<h1>Delete Article</h1>
+<p>Are you sure you want to delete the film watch: {{ filmwatch }}?</p>
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="Yes, delete.">
+</form>
+{% endblock %}

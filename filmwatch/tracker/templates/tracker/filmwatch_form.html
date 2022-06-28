@@ -1,0 +1,11 @@
+{% extends "template.html" %}
+{% block content %}
+<p>
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+    <a href="{% url 'tracker:all' %}"><input type="button" value="Cancel"></a>
+  </form>
+</p>
+{% endblock %}

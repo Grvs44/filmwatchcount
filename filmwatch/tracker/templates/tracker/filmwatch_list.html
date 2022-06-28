@@ -1,0 +1,20 @@
+{% extends "template.html" %}
+{% block content %}
+<h1>Film watches</h1>
+<p><a href="{% url 'tracker:filmwatch_create' %}">Add a film watch</a> |<a href="{% url 'logout' %}?next={% url 'tracker:all' %}">Logout</a></p>
+<p>
+{% if filmwatch_list %}
+<ul>
+  {% for filmwatch in filmwatch_list %}
+    <li>
+        <a href="{% url 'tracker:filmwatch_detail'  filmwatch.id %}">{{ filmwatch }}</a>
+        (<a href="{% url 'tracker:filmwatch_update' filmwatch.id %}">Edit</a> |
+        <a href="{% url 'tracker:filmwatch_delete' filmwatch.id %}">Delete</a>)
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p>No film watches have been added</p>
+{% endif %}
+</p>
+{% endblock %}

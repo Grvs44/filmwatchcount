@@ -1,0 +1,8 @@
+{% extends "template.html" %}
+{% block content %}
+<p><a href="{% url 'tracker:all' %}">Back to list</a></p>
+<h1>{{ filmwatch.Film }}</h1>
+<p><a href="{% url 'tracker:filmwatch_update' filmwatch.id %}">Change</a> | <a href="{% url 'tracker:filmwatch_delete' filmwatch.id %}">Delete</a></p>
+<p>Date watched: {{filmwatch.DateWatched}}</p>
+<p>{{filmwatch.Notes}}</p>
+{% endblock %}
