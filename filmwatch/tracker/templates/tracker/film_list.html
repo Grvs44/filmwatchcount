@@ -1,0 +1,21 @@
+{% extends "template.html" %}
+{% block title %}Films{% endblock %}
+{% block content %}
+<h1>Film</h1>
+<p><a href="{% url 'tracker:film_create' %}">Add a film</a> | <a href="/">Go to Home</a></p>
+<p>
+{% if film_list %}
+<ul>
+  {% for film in film_list %}
+    <li>
+        <a href="{% url 'tracker:film_detail'  film.id %}">{{ film }}</a>
+        (<a href="{% url 'tracker:film_update' film.id %}">Edit</a> |
+        <a href="{% url 'tracker:film_delete' film.id %}">Delete</a>)
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p>No films have been added</p>
+{% endif %}
+</p>
+{% endblock %}

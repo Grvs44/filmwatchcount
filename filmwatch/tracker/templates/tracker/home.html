@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en-gb">
-<head>
-<meta charset="utf-8"/>
-<title>Film Watch Count</title>
-<link rel="stylesheet" href="/static/home.css" type="text/css"/>
-<script src="/static/home.js" type="application/javascript"></script>
-</head>
-<body onload="Onload()">
-<h1>Welcome, {{request.user.first_name}}</h1>
-<p><a href="{% url 'logout' %}?next=/">Logout</a>{% if request.user.is_staff %} | <a href="/admin/">Admin</a>{% endif %}</p>
-{% csrf_token %}
-<div id="content"></div>
+{% extends "template.html" %}
+{% block content %}
+<h1>Film Watch Count</h1>
+<ul>
+    <li><a href="/filmgroup">Film groups</a></li>
+    <li><a href="/film">Films</a></li>
+    <li><a href="/filmwatch">Film watches</a></li>
+</ul>
 </body>
 </html>
+{% endblock %}

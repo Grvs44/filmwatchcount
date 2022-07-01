@@ -1,0 +1,18 @@
+{% extends "template.html" %}
+{% block title %}{{film}}{% endblock %}
+{% block content %}
+<h1>{{ film.Name }}</h1>
+<p><a href="{% url 'tracker:film_update' film.id %}">Change</a> | <a href="{% url 'tracker:film_delete' film.id %}">Delete</a></p>
+{% if len filmgrouplist != 0 %}
+<p>Group:
+{% elif len filmgrouplist == 1 %} <a href="{% url 'tracker:filmgroup_detail' film.FilmGroup.id %}">{{ film.FilmGroup }}</a>
+{% else %}
+<ul>
+{% for filmgroup in filmgrouplist %}
+<li><a href="{% url 'tracker:filmgroup_detail' filmgroup.id %}">{{ filmgroup }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+</p>
+{% endif %}
+{% endblock %}

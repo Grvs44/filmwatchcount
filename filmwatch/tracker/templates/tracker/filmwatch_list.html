@@ -1,7 +1,8 @@
 {% extends "template.html" %}
+{% block title %}Film watches{% endblock %}
 {% block content %}
 <h1>Film watches</h1>
-<p><a href="{% url 'tracker:filmwatch_create' %}">Add a film watch</a> |<a href="{% url 'logout' %}?next={% url 'tracker:all' %}">Logout</a></p>
+<p><a href="{% url 'tracker:filmwatch_create' %}">Add a film watch</a> | <a href="/">Go to Home</a></p>
 <p>
 {% if filmwatch_list %}
 <ul>
