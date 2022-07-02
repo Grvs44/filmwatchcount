@@ -1,11 +1,11 @@
-{% extends "template.html" %}
+{% extends "tracker/list_template.html" %}
 {% block title %}Films{% endblock %}
 {% block content %}
 <h1>Film</h1>
 <p><a href="{% url 'tracker:film_create' %}">Add a film</a> | <a href="/">Go to Home</a></p>
 <p>
 {% if film_list %}
-<ul>
+<ul id="objectlist">
   {% for film in film_list %}
     <li>
         <a href="{% url 'tracker:film_detail'  film.id %}">{{ film }}</a>

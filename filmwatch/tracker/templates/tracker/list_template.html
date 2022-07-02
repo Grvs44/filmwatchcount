@@ -1,0 +1,8 @@
+{% extends "template.html" %}
+{% block head %}<script src="/static/list.js" type="application/javascript"></script>{% endblock %}
+{% block body %}
+<body onload="Onload()">
+<p>Welcome{% if request.user.first_name|length != 0 %}, {{request.user.first_name}}{% endif %}. <a href="{% url 'logout' %}?next=/">Logout</a>{% if request.user.is_staff %} | <a href="/admin/">Admin</a>{% endif %}</p>
+{% block content %}{% endblock %}
+</body>
+{% endblock %}

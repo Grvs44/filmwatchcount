@@ -1,11 +1,11 @@
-{% extends "template.html" %}
+{% extends "tracker/object_template.html" %}
 {% block title %}{{film}}{% endblock %}
 {% block content %}
 <h1>{{ film.Name }}</h1>
 <p><a href="{% url 'tracker:film_update' film.id %}">Change</a> | <a href="{% url 'tracker:film_delete' film.id %}">Delete</a></p>
-{% if len filmgrouplist != 0 %}
+{% if filmgrouplist|length != 0 %}
 <p>Group:
-{% elif len filmgrouplist == 1 %} <a href="{% url 'tracker:filmgroup_detail' film.FilmGroup.id %}">{{ film.FilmGroup }}</a>
+{% if filmgrouplist|length == 1 %} <a href="{% url 'tracker:filmgroup_detail' film.FilmGroup.id %}">{{ film.FilmGroup }}</a>
 {% else %}
 <ul>
 {% for filmgroup in filmgrouplist %}
