@@ -1,0 +1,17 @@
+body,select{
+    font-family:'Segoe UI';
+    user-select:none;
+}
+#content div{
+    border:1px solid #000;
+}
+#content form{
+    display:none;
+    margin:0.4em;
+}
+#content h2{
+    cursor:pointer;
+}
+textarea,input[type=date]{
+    font-family:Calibri;
+}

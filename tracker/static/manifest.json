@@ -1,0 +1,11 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Film Watch Count",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Film Watch Count",
+  "start_url": "/",
+  "theme_color": "#ffffff"
+}
