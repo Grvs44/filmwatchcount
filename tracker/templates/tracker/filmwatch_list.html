@@ -2,20 +2,17 @@
 {% block title %}Film watches{% endblock %}
 {% block content %}
 <h1>Film watches</h1>
-<p><a href="{% url 'tracker:filmwatch_create' %}">Add a film watch</a> | <a href="/">Go to Home</a></p>
+<p><a href="{% url 'tracker:filmwatch_create' %}" id="add">Add a film watch</a> | <a href="/">Go to Home</a></p>
 <p>
 {% if filmwatch_list %}
+<p>{{filmwatch_list|length}} film watch{% if filmwatch_list|length != 1 %}es{% endif %}</p>
 <ul id="objectlist">
   {% for filmwatch in filmwatch_list %}
-    <li>
-        <a href="{% url 'tracker:filmwatch_detail'  filmwatch.id %}">{{ filmwatch }}</a>
-        (<a href="{% url 'tracker:filmwatch_update' filmwatch.id %}">Edit</a> |
-        <a href="{% url 'tracker:filmwatch_delete' filmwatch.id %}">Delete</a>)
-    </li>
+    <li><a href="{% url 'tracker:filmwatch_detail'  filmwatch.id %}">{{ filmwatch }}</a></li>
   {% endfor %}
 </ul>
 {% else %}
-  <p>No film watches have been added</p>
+<p>No film watches</p>
 {% endif %}
 </p>
 {% endblock %}

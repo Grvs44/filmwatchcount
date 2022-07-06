@@ -1,5 +1,9 @@
 {% extends "tracker/object_template.html" %}
-{% block title %}{{filmgroup}}{% endblock %}
+{% block title %}
+{% if filmgroup.id == None %}New Film Group
+{% else %}{{filmgroup}}
+{% endif %}
+{% endblock %}
 {% block content %}
 <p>
   <form action="" method="post">
