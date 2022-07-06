@@ -1,8 +1,12 @@
 from django.urls import path, reverse_lazy
 from .views import *
+from django.views.generic.base import RedirectView
 app_name = 'tracker'
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
+    path('manifest.json', RedirectView.as_view(url="/static/manifest.json")),
+    path('pwabuilder-sw.js', RedirectView.as_view(url="/static/pwabuilder-sw.js")),
+    path('pwabuilder-sw-register.js', RedirectView.as_view(url="/static/pwabuilder-sw-register.js")),
     path('filmwatch/', FilmWatchListView.as_view(), name='filmwatch_list'),
     path('filmwatch/<int:pk>', FilmWatchDetailView.as_view(), name='filmwatch_detail'),
     path('filmwatch/create', FilmWatchCreateView.as_view(), name='filmwatch_create'),

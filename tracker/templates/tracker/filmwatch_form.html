@@ -1,10 +1,10 @@
 {% extends "tracker/object_template.html" %}
-{% block title %}
+{% block name %}
 {% if filmwatch.id == None %}New Film Watch
 {% else %}{{filmwatch}}
 {% endif %}
 {% endblock %}
-{% block head %}<link rel="stylesheet" href="/static/filmwatch_update.css" type="text/css"/>{% endblock %}
+{% block objecthead %}<link rel="stylesheet" href="/static/filmwatch_update.css" type="text/css"/>{% endblock %}
 {% block content %}
 <p>
   <form action="" method="post">

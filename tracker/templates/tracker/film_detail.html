@@ -1,6 +1,6 @@
 {% extends "tracker/object_template.html" %}
-{% block title %}{{film}}{% endblock %}
-{% block head %}<script src="/static/watchcount.js" type="application/javascript"></script>{% endblock %}
+{% block name %}{{film}}{% endblock %}
+{% block objecthead %}<script src="/static/watchcount.js" type="application/javascript"></script>{% endblock %}
 {% block content %}
 <h1>{{ film.Name }}</h1>
 <p><a href="{% url 'tracker:film_update' film.id %}">Change</a> | <a href="{% url 'tracker:film_delete' film.id %}">Delete</a></p>

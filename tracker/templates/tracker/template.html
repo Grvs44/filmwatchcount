@@ -5,11 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>{% block title %}Film Watch Count{% endblock %}</title>
 <link rel="stylesheet" href="/static/home.css" type="text/css"/>
-<link rel="manifest" href="manifest.json" />
+<link rel="manifest" href="/static/manifest.json"/>
 <script type="module">
    import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
-   const el = document.createElement('pwa-update');
-   document.body.appendChild(el);
+   document.body.appendChild(document.createElement('pwa-update'));
 </script>
 {% block head %}{% endblock %}
 </head>
