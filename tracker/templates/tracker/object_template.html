@@ -1,6 +1,7 @@
 {% extends "tracker/template.html" %}
+{% load static %}
 {% block title %}{% block name %}{% endblock %} - Film Watch Count{% endblock %}
-{% block head %}<link rel="stylesheet" href="/static/object.css" type="text/css"/>{% block objecthead %}{% endblock %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{% static '/css/object.css' %}" type="text/css"/>{% block objecthead %}{% endblock %}{% endblock %}
 {% block body %}
 <body>
 <button id="close" onclick="window.close()">Close</button>

@@ -157,4 +157,4 @@ PWA_APP_SPLASH_SCREEN = [
 ]
 PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'en-GB'
-PWA_SERVICE_WORKER_PATH = BASE_DIR / 'static/pwabuilder-sw.js'
+PWA_SERVICE_WORKER_PATH = BASE_DIR / 'static/js/pwabuilder-sw.js'
