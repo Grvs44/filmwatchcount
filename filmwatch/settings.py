@@ -139,13 +139,13 @@ PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
-        'src': '/static/images/my_app_icon.png',
+        'src': '/static/images/app_icon.png',
         'sizes': '160x160'
     }
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        'src': '/static/images/my_apple_icon.png',
+        'src': '/static/images/app_icon.png',
         'sizes': '160x160'
     }
 ]
@@ -157,3 +157,4 @@ PWA_APP_SPLASH_SCREEN = [
 ]
 PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'en-GB'
+PWA_SERVICE_WORKER_PATH = BASE_DIR / 'static/pwabuilder-sw.js'
