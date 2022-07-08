@@ -1,0 +1,20 @@
+{
+  "name": "Film Watch Count",
+  "short_name": "Film Watch Count",
+  "description": "Web database system for tracking how many times you've watched films",
+  "start_url": "/",
+  "display": "standalone",
+  "scope": "/",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#0A0302",
+  "status_bar": "default",
+  "icons": [
+    {
+      "src": "/static/images/app_icon.png",
+      "sizes": "160x160"
+    }
+  ],
+  "dir": "ltr",
+  "lang": "en-GB"
+}

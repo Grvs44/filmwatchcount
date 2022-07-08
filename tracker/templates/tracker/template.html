@@ -1,13 +1,13 @@
 {% load static %}
-{% load pwa %}
 <!DOCTYPE html>
 <html lang="en-gb">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>{% block title %}Film Watch Count{% endblock %}</title>
+<link rel="manifest" href="/manifest.json"/>
+<script type="module" src="/pwabuilder-sw-update.js"></script>
 <link rel="stylesheet" href="{% static '/css/main.css' %}" type="text/css"/>
-{% progressive_web_app_meta %}
 {% block head %}{% endblock %}
 </head>
 {% block body %}{% endblock %}
