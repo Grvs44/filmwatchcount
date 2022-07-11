@@ -8,3 +8,7 @@ function ObjectClick(e){
     e.preventDefault()
     open(e.target.href,e.target.href,"height=500,width=500")
 }
+function Back(){
+    if(opener) close()
+    else history.back()
+}

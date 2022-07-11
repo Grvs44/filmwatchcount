@@ -2,7 +2,7 @@
 {% block title %}Film groups{% endblock %}
 {% block content %}
 <h1>Film groups</h1>
-<p><a href="{% url 'tracker:filmgroup_create' %}" id="add">Add a film group</a> | <a href="/">Go to Home</a></p>
+<p><a href="{% url 'tracker:filmgroup_create' %}" id="add">Add a film group</a></p>
 <p>
 {% if filmgroup_list %}
 <p>{{filmgroup_list|length}} film group{% if filmgroup_list|length != 1 %}s{% endif %}</p>

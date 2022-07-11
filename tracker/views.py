@@ -16,16 +16,25 @@ class FilmWatchListView(OwnerListView):
         return queryset
 class FilmWatchDetailView(OwnerDetailView):
     model = FilmWatch
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context["addbtn"] = "add" in self.request.GET
+        return context
 class FilmWatchCreateView(OwnerCreateView):
     model = FilmWatch
     fields = ["Film","DateWatched","Notes"]
     def get_success_url(self):
-        return reverse('tracker:filmwatch_detail',args=[self.object.id])
+        return reverse('tracker:filmwatch_detail',args=[self.object.id]) + "?add"
 class FilmWatchUpdateView(OwnerUpdateView):
     model = FilmWatch
     fields = ["Film","DateWatched","Notes"]
     def get_success_url(self):
         return reverse('tracker:filmwatch_detail',args=[self.object.id])
+class FilmWatchDuplicateView(OwnerDuplicateView):
+    model = FilmWatch
+    fields = ["Film","DateWatched","Notes"]
+    def get_success_url(self):
+        return reverse('tracker:filmwatch_detail',args=[self.object.id]) + "?add"
 class FilmWatchDeleteView(OwnerDeleteView):
     model = FilmWatch
 class FilmListView(OwnerListView):
@@ -43,17 +52,23 @@ class FilmDetailView(OwnerDetailView):
             filmgrouplist.append(filmgroup)
             filmgroup = filmgroup.FilmGroup
         context["filmgrouplist"] = filmgrouplist
+        context["addbtn"] = "add" in self.request.GET
         return context
 class FilmCreateView(OwnerCreateView):
     model = Film
-    fields = ["FilmGroup","Name"]
+    fields = ["FilmGroup","Name","ReleaseYear"]
     def get_success_url(self):
-        return reverse('tracker:film_detail',args=[self.object.id])
+        return reverse('tracker:film_detail',args=[self.object.id]) + "?add"
 class FilmUpdateView(OwnerUpdateView):
     model = Film
-    fields = ["FilmGroup","Name"]
+    fields = ["FilmGroup","Name","ReleaseYear"]
     def get_success_url(self):
         return reverse('tracker:film_detail',args=[self.object.id])
+class FilmDuplicateView(OwnerDuplicateView):
+    model = Film
+    fields = ["FilmGroup","Name","ReleaseYear"]
+    def get_success_url(self):
+        return reverse('tracker:film_detail',args=[self.object.id]) + "?add"
 class FilmDeleteView(OwnerDeleteView):
     model = Film
 class FilmCountView(LoginRequiredMixin,View):
@@ -78,17 +93,23 @@ class FilmGroupDetailView(OwnerDetailView):
             filmgrouplist.append(filmgroup)
             filmgroup = filmgroup.FilmGroup
         context["filmgrouplist"] = filmgrouplist
+        context["addbtn"] = "add" in self.request.GET
         return context
 class FilmGroupCreateView(OwnerCreateView):
     model = FilmGroup
     fields = ["FilmGroup","Name"]
     def get_success_url(self):
-        return reverse('tracker:filmgroup_detail',args=[self.object.id])
+        return reverse('tracker:filmgroup_detail',args=[self.object.id]) + "?add"
 class FilmGroupUpdateView(OwnerUpdateView):
     model = FilmGroup
     fields = ["FilmGroup","Name"]
     def get_success_url(self):
         return reverse('tracker:filmgroup_detail',args=[self.object.id])
+class FilmGroupDuplicateView(OwnerDuplicateView):
+    model = FilmGroup
+    fields = ["FilmGroup","Name"]
+    def get_success_url(self):
+        return reverse('tracker:filmgroup_detail',args=[self.object.id]) + "?add"
 class FilmGroupDeleteView(OwnerDeleteView):
     model = FilmGroup
 class FilmGroupCountView(LoginRequiredMixin,View):

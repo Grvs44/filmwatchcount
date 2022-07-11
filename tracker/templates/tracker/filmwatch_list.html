@@ -2,7 +2,7 @@
 {% block name %}Film watches{% endblock %}
 {% block content %}
 <h1>Film watches</h1>
-<p><a href="{% url 'tracker:filmwatch_create' %}" id="add">Add a film watch</a> | <a href="/">Go to Home</a></p>
+<p><a href="{% url 'tracker:filmwatch_create' %}" id="add">Add a film watch</a></p>
 <p>
 {% if filmwatch_list %}
 <p>{{filmwatch_list|length}} film watch{% if filmwatch_list|length != 1 %}es{% endif %}</p>

@@ -1,8 +1,8 @@
 {% extends "tracker/list_template.html" %}
 {% block title %}Films{% endblock %}
 {% block content %}
-<h1>Film</h1>
-<p><a href="{% url 'tracker:film_create' %}" id="add">Add a film</a> | <a href="/">Go to Home</a></p>
+<h1>Films</h1>
+<p><a href="{% url 'tracker:film_create' %}" id="add">Add a film</a></p>
 <p>
 {% if film_list %}
 <p>{{film_list|length}} film{% if film_list|length != 1 %}s{% endif %}</p>
