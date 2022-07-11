@@ -1,9 +1,4 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-const HTML_CACHE = "html";
-const JS_CACHE = "javascript";
-const STYLE_CACHE = "stylesheets";
-const IMAGE_CACHE = "images";
-const FONT_CACHE = "fonts";
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     self.skipWaiting();
@@ -12,10 +7,10 @@ self.addEventListener("message", (event) => {
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'document',
   new workbox.strategies.NetworkFirst({
-    cacheName: HTML_CACHE,
+    cacheName: "html",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
-        maxEntries: 10,
+        maxEntries: 100,
       }),
     ],
   })
@@ -23,7 +18,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'script',
   new workbox.strategies.StaleWhileRevalidate({
-    cacheName: JS_CACHE,
+    cacheName: "javascript",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 15,
@@ -34,7 +29,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'style',
   new workbox.strategies.StaleWhileRevalidate({
-    cacheName: STYLE_CACHE,
+    cacheName: "stylesheets",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 15,
@@ -45,7 +40,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'image',
   new workbox.strategies.StaleWhileRevalidate({
-    cacheName: IMAGE_CACHE,
+    cacheName: "images",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 15,
@@ -56,7 +51,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'font',
   new workbox.strategies.StaleWhileRevalidate({
-    cacheName: FONT_CACHE,
+    cacheName: "fonts",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 15,
@@ -64,3 +59,20 @@ workbox.routing.registerRoute(
     ],
   })
 );
+self.addEventListener('activate', event => {
+  event.waitUntil((async () => {
+    const names = await caches.keys();
+    const usedCacheNames = ['html','javascript','stylesheets','images','fonts']
+    await Promise.all(names.map(name => {
+      if (!usedCacheNames.includes(name)) {
+        return caches.delete(name);
+      }
+    }));
+  })());
+});
+self.addEventListener('install', event => {
+  event.waitUntil((async () => {
+    const cache = await caches.open("html");
+    cache.add("/offline.html");
+  })());
+});

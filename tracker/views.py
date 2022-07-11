@@ -7,6 +7,10 @@ from django.urls import reverse
 class HomeView(LoginRequiredMixin,View):
     def get(self,request):
         return render(request,"tracker/home.html")
+class DeleteRedirectView(LoginRequiredMixin,View):
+    viewname = ""
+    def get(self,request):
+        return render(request,"tracker/deleteredirect.html",{"view":self.viewname})
 class FilmWatchListView(OwnerListView):
     model = FilmWatch
     def get_queryset(self):
@@ -16,15 +20,11 @@ class FilmWatchListView(OwnerListView):
         return queryset
 class FilmWatchDetailView(OwnerDetailView):
     model = FilmWatch
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context["addbtn"] = "add" in self.request.GET
-        return context
 class FilmWatchCreateView(OwnerCreateView):
     model = FilmWatch
     fields = ["Film","DateWatched","Notes"]
     def get_success_url(self):
-        return reverse('tracker:filmwatch_detail',args=[self.object.id]) + "?add"
+        return reverse('tracker:filmwatch_detail',args=[self.object.id])
 class FilmWatchUpdateView(OwnerUpdateView):
     model = FilmWatch
     fields = ["Film","DateWatched","Notes"]
@@ -34,9 +34,13 @@ class FilmWatchDuplicateView(OwnerDuplicateView):
     model = FilmWatch
     fields = ["Film","DateWatched","Notes"]
     def get_success_url(self):
-        return reverse('tracker:filmwatch_detail',args=[self.object.id]) + "?add"
+        return reverse('tracker:filmwatch_detail',args=[self.object.id])
 class FilmWatchDeleteView(OwnerDeleteView):
     model = FilmWatch
+    def get_success_url(self):
+        return reverse('tracker:filmwatch_deleteredirect')
+class FilmWatchDeleteRedirectView(DeleteRedirectView):
+    viewname = "filmwatch"
 class FilmListView(OwnerListView):
     model = Film
     def get_queryset(self):
@@ -52,13 +56,12 @@ class FilmDetailView(OwnerDetailView):
             filmgrouplist.append(filmgroup)
             filmgroup = filmgroup.FilmGroup
         context["filmgrouplist"] = filmgrouplist
-        context["addbtn"] = "add" in self.request.GET
         return context
 class FilmCreateView(OwnerCreateView):
     model = Film
     fields = ["FilmGroup","Name","ReleaseYear"]
     def get_success_url(self):
-        return reverse('tracker:film_detail',args=[self.object.id]) + "?add"
+        return reverse('tracker:film_detail',args=[self.object.id])
 class FilmUpdateView(OwnerUpdateView):
     model = Film
     fields = ["FilmGroup","Name","ReleaseYear"]
@@ -68,9 +71,13 @@ class FilmDuplicateView(OwnerDuplicateView):
     model = Film
     fields = ["FilmGroup","Name","ReleaseYear"]
     def get_success_url(self):
-        return reverse('tracker:film_detail',args=[self.object.id]) + "?add"
+        return reverse('tracker:film_detail',args=[self.object.id])
 class FilmDeleteView(OwnerDeleteView):
     model = Film
+    def get_success_url(self):
+        return reverse('tracker:film_deleteredirect')
+class FilmDeleteRedirectView(DeleteRedirectView):
+    viewname = "film"
 class FilmCountView(LoginRequiredMixin,View):
     def get(self,request,pk):
         film = get_object_or_404(Film,id=pk)
@@ -93,13 +100,12 @@ class FilmGroupDetailView(OwnerDetailView):
             filmgrouplist.append(filmgroup)
             filmgroup = filmgroup.FilmGroup
         context["filmgrouplist"] = filmgrouplist
-        context["addbtn"] = "add" in self.request.GET
         return context
 class FilmGroupCreateView(OwnerCreateView):
     model = FilmGroup
     fields = ["FilmGroup","Name"]
     def get_success_url(self):
-        return reverse('tracker:filmgroup_detail',args=[self.object.id]) + "?add"
+        return reverse('tracker:filmgroup_detail',args=[self.object.id])
 class FilmGroupUpdateView(OwnerUpdateView):
     model = FilmGroup
     fields = ["FilmGroup","Name"]
@@ -109,9 +115,13 @@ class FilmGroupDuplicateView(OwnerDuplicateView):
     model = FilmGroup
     fields = ["FilmGroup","Name"]
     def get_success_url(self):
-        return reverse('tracker:filmgroup_detail',args=[self.object.id]) + "?add"
+        return reverse('tracker:filmgroup_detail',args=[self.object.id])
 class FilmGroupDeleteView(OwnerDeleteView):
     model = FilmGroup
+    def get_success_url(self):
+        return reverse('tracker:filmgroup_deleteredirect')
+class FilmGroupDeleteRedirectView(DeleteRedirectView):
+    viewname = "filmgroup"
 class FilmGroupCountView(LoginRequiredMixin,View):
     def get(self,request,pk):
         filmgroup = get_object_or_404(FilmGroup,id=pk)

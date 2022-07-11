@@ -3,16 +3,12 @@
 {% block content %}
 <h1>Film groups</h1>
 <p><a href="{% url 'tracker:filmgroup_create' %}" id="add">Add a film group</a></p>
-<p>
 {% if filmgroup_list %}
 <p>{{filmgroup_list|length}} film group{% if filmgroup_list|length != 1 %}s{% endif %}</p>
 <ul id="objectlist">
-  {% for filmgroup in filmgroup_list %}
-    <li><a href="{% url 'tracker:filmgroup_detail'  filmgroup.id %}">{{ filmgroup }}</a></li>
-  {% endfor %}
+{% for filmgroup in filmgroup_list %}<li><a href="{% url 'tracker:filmgroup_detail'  filmgroup.id %}">{{filmgroup}}</a></li>{% endfor %}
 </ul>
 {% else %}
 <p>No film groups</p>
 {% endif %}
-</p>
 {% endblock %}

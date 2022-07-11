@@ -3,16 +3,12 @@
 {% block content %}
 <h1>Films</h1>
 <p><a href="{% url 'tracker:film_create' %}" id="add">Add a film</a></p>
-<p>
 {% if film_list %}
 <p>{{film_list|length}} film{% if film_list|length != 1 %}s{% endif %}</p>
 <ul id="objectlist">
-  {% for film in film_list %}
-    <li><a href="{% url 'tracker:film_detail'  film.id %}">{{ film }}</a></li>
-  {% endfor %}
+{% for film in film_list %}<li><a href="{% url 'tracker:film_detail' film.id %}">{{film}}</a></li>{% endfor %}
 </ul>
 {% else %}
 <p>No films</p>
 {% endif %}
-</p>
 {% endblock %}

@@ -1,0 +1,7 @@
+{% load static %}
+<script type="application/javascript">
+(function(){
+    if(opener) close()
+    else location.href = "/{{view}}"
+})()
+</script>

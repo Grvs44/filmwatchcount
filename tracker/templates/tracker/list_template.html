@@ -1,9 +1,10 @@
 {% extends "tracker/template.html" %}
 {% load static %}
-{% block head %}<script src="{% static '/js/list.js' %}" type="application/javascript"></script>{% endblock %}
+{% block head %}<script src="{% static '/js/list.js' %}" type="application/javascript"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/css/list.css' %}"/>{% endblock %}
 {% block body %}
 <body onload="Onload()">
-<p><button onclick="Back()">Back</button> Welcome{% if request.user.first_name|length != 0 %}, {{request.user.first_name}}{% endif %}.</p>
+<button onclick="Back()" id="back">←</button>
 {% block content %}{% endblock %}
 </body>
 {% endblock %}
