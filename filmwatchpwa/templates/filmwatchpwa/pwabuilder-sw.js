@@ -1,9 +1,14 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+const noCachePages = ['/create','/delete','/duplicate','/update'];
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     self.skipWaiting();
   }
 });
+workbox.routing.registerRoute(
+  ({url}) => CheckIfNoCachePage(url),
+  new workbox.strategies.NetworkOnly()
+);
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'document',
   new workbox.strategies.NetworkFirst({
@@ -15,8 +20,13 @@ workbox.routing.registerRoute(
     ],
   })
 );
+workbox.routing.setCatchHandler(async (options) => {
+  const cache = await self.caches.open('offline');
+  if(options.request.destination === 'document') return (await cache.match('/offline.html')) || Response.error();
+  return Response.error();
+});
 workbox.routing.registerRoute(
-  ({event}) => event.request.destination === 'script',
+  ({event}) => (event.request.destination === 'script' || event.request.destination === 'javascript'),
   new workbox.strategies.StaleWhileRevalidate({
     cacheName: "javascript",
     plugins: [
@@ -59,10 +69,33 @@ workbox.routing.registerRoute(
     ],
   })
 );
+workbox.routing.registerRoute(
+  ({event}) => (event.request.destination === 'json' || event.request.destination === 'manifest'),
+  new workbox.strategies.StaleWhileRevalidate({
+    cacheName: "json",
+    plugins: [
+      new workbox.expiration.ExpirationPlugin({
+        maxEntries: 4,
+      }),
+    ],
+  })
+);
+workbox.routing.registerRoute(
+  ({url}) => (url.pathname.endsWith('/count') || url.pathname.endsWith('.txt')),
+  new workbox.strategies.NetworkFirst({
+    cacheName: "text",
+    plugins: [
+      new workbox.expiration.ExpirationPlugin({
+        maxEntries: 100,
+      }),
+    ],
+  })
+);
 self.addEventListener('activate', event => {
+  console.log("activate");
   event.waitUntil((async () => {
     const names = await caches.keys();
-    const usedCacheNames = ['html','javascript','stylesheets','images','fonts']
+    const usedCacheNames = ['html','javascript','stylesheets','images','fonts','json','text','offline']
     await Promise.all(names.map(name => {
       if (!usedCacheNames.includes(name)) {
         return caches.delete(name);
@@ -72,7 +105,12 @@ self.addEventListener('activate', event => {
 });
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
-    const cache = await caches.open("html");
+    const cache = await caches.open("offline");
     cache.add("/offline.html");
   })());
 });
+function CheckIfNoCachePage(url){
+  for(var page of noCachePages)
+    if(url.pathname.endsWith(page)) return true;
+  return false;
+}
