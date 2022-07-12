@@ -4,8 +4,7 @@
 {% block objecthead %}<link rel="stylesheet" type="text/css" href="{% static '/css/detail.css' %}"/>{% endblock %}
 {% block content %}
 <h1>{{ filmwatch.Film }}</h1>
-<p><a href="{% url 'tracker:filmwatch_create' %}"><button>Add new</button></a> <a href="{% url 'tracker:filmwatch_duplicate' filmwatch.id %}"><button>Duplicate</button></a></p>
-<p><a href="{% url 'tracker:filmwatch_update' filmwatch.id %}">Change</a> | <a href="{% url 'tracker:filmwatch_delete' filmwatch.id %}">Delete</a></p>
+<p><a href="{% url 'tracker:filmwatch_create' %}"><button>Add new</button></a> <a href="{% url 'tracker:filmwatch_duplicate' filmwatch.id %}"><button>Duplicate</button></a> <a href="{% url 'tracker:filmwatch_update' filmwatch.id %}"><button>Change</button></a> <a href="{% url 'tracker:filmwatch_delete' filmwatch.id %}"><button>Delete</button></a></p>
 <p>Date watched: {{filmwatch.DateWatched}}</p>
 <p>{{filmwatch.Notes}}</p>
 {% endblock %}

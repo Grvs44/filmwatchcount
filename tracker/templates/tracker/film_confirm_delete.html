@@ -5,6 +5,7 @@
 <p>Are you sure you want to delete the film: {{ film }}?</p>
 <form action="" method="POST">
   {% csrf_token %}
+  <input type="button" value="Cancel" onclick="history.back()"/>
   <input type="submit" value="Delete">
 </form>
 {% endblock %}

@@ -9,8 +9,8 @@ class HomeView(LoginRequiredMixin,View):
         return render(request,"tracker/home.html")
 class DeleteRedirectView(LoginRequiredMixin,View):
     viewname = ""
-    def get(self,request):
-        return render(request,"tracker/deleteredirect.html",{"view":self.viewname})
+    def get(self,request,pk):
+        return render(request,"tracker/deleteredirect.html",{"pk":pk,"view":self.viewname})
 class FilmWatchListView(OwnerListView):
     model = FilmWatch
     def get_queryset(self):
@@ -38,7 +38,7 @@ class FilmWatchDuplicateView(OwnerDuplicateView):
 class FilmWatchDeleteView(OwnerDeleteView):
     model = FilmWatch
     def get_success_url(self):
-        return reverse('tracker:filmwatch_deleteredirect')
+        return reverse('tracker:filmwatch_deleteredirect',args=[self.object.id])
 class FilmWatchDeleteRedirectView(DeleteRedirectView):
     viewname = "filmwatch"
 class FilmListView(OwnerListView):
@@ -75,7 +75,7 @@ class FilmDuplicateView(OwnerDuplicateView):
 class FilmDeleteView(OwnerDeleteView):
     model = Film
     def get_success_url(self):
-        return reverse('tracker:film_deleteredirect')
+        return reverse('tracker:film_deleteredirect',args=[self.object.id])
 class FilmDeleteRedirectView(DeleteRedirectView):
     viewname = "film"
 class FilmCountView(LoginRequiredMixin,View):
@@ -119,7 +119,7 @@ class FilmGroupDuplicateView(OwnerDuplicateView):
 class FilmGroupDeleteView(OwnerDeleteView):
     model = FilmGroup
     def get_success_url(self):
-        return reverse('tracker:filmgroup_deleteredirect')
+        return reverse('tracker:filmgroup_deleteredirect',args=[self.object.id])
 class FilmGroupDeleteRedirectView(DeleteRedirectView):
     viewname = "filmgroup"
 class FilmGroupCountView(LoginRequiredMixin,View):

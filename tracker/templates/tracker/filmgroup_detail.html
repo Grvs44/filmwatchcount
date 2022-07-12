@@ -4,11 +4,8 @@
 {% block objecthead %}<script src="{% static '/js/watchcount.js' %}" type="application/javascript"></script>{% endblock %}
 {% block content %}
 <h1>{{ filmgroup }}</h1>
-<p><a href="{% url 'tracker:filmgroup_create' %}"><button>Add new</button></a> <a href="{% url 'tracker:filmgroup_duplicate' filmgroup.id %}"><button>Duplicate</button></a></p>
-<p><a href="{% url 'tracker:filmgroup_update' filmgroup.id %}">Change</a> | <a href="{% url 'tracker:filmgroup_delete' filmgroup.id %}">Delete</a></p>
-<p><button onclick="WatchCount(this)">Find film group watch count</button></p>
-<p><a href="{% url 'tracker:film_list' %}?group={{filmgroup.id}}" target="_blank"><button>Show films</button></a></p>
-<p><a href="{% url 'tracker:filmwatch_list' %}?group={{filmgroup.id}}" target="_blank"><button>Show film watches</button></a></p>
+<p><a href="{% url 'tracker:filmgroup_create' %}"><button>Add new</button></a> <a href="{% url 'tracker:filmgroup_duplicate' filmgroup.id %}"><button>Duplicate</button></a> <a href="{% url 'tracker:filmgroup_update' filmgroup.id %}"><button>Change</button></a> <a href="{% url 'tracker:filmgroup_delete' filmgroup.id %}"><button>Delete</button></a></p>
+<p><button onclick="WatchCount(this)">Find film group watch count</button> <a href="{% url 'tracker:film_list' %}?group={{filmgroup.id}}" target="_blank"><button>Show films</button></a> <a href="{% url 'tracker:filmwatch_list' %}?group={{filmgroup.id}}" target="_blank"><button>Show film watches</button></a></p>
 {% if filmgrouplist|length != 0 %}
 <p>Group:
 {% if filmgrouplist|length == 1 %} <a href="{% url 'tracker:filmgroup_detail' filmgroup.FilmGroup.id %}">{{ filmgroup.FilmGroup }}</a>

@@ -1,6 +1,6 @@
-{% load static %}
 <script type="application/javascript">
-(function(){
+(async function(){
+    await(await caches.open("html")).delete("/{{view}}/{{pk}}")
     if(opener) close()
     else location.href = "/{{view}}"
 })()

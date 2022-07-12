@@ -1,5 +1,6 @@
+{% load static %}
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-const noCachePages = ['/create','/delete','/duplicate','/update'];
+const noCachePages = ['/create','/delete','/deleted','/duplicate','/update'];
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     self.skipWaiting();
@@ -101,12 +102,10 @@ self.addEventListener('activate', event => {
         return caches.delete(name);
       }
     }));
-  })());
-});
-self.addEventListener('install', event => {
-  event.waitUntil((async () => {
-    const cache = await caches.open("offline");
-    cache.add("/offline.html");
+    (await caches.open("offline")).add("/offline.html");
+    (await caches.open("html")).add("/");
+    (await caches.open("json")).add("/manifest.json");
+    (await caches.open("stylesheets")).add("{% static '/css/list.css' %}");
   })());
 });
 function CheckIfNoCachePage(url){
