@@ -7,6 +7,10 @@ self.addEventListener("message", (event) => {
   }
 });
 workbox.routing.registerRoute(
+  new RegExp("/admin*"),
+  new workbox.strategies.NetworkOnly()
+);
+workbox.routing.registerRoute(
   ({url}) => CheckIfNoCachePage(url),
   new workbox.strategies.NetworkOnly()
 );

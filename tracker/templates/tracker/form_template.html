@@ -1,6 +1,6 @@
 {% extends 'tracker/object_template.html' %}
 {% load static %}
-{% block bodyattrs %} onload="Onload()"{% endblock %}
+{% block onload %}Onload{% endblock %}
 {% block objecthead %}
 <script src="{% static '/js/form_template.js' %}" type="application/javascript"></script>
 {% block formhead %}{% endblock %}

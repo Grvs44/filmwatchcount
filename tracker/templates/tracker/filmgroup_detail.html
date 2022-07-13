@@ -1,11 +1,13 @@
-{% extends "tracker/object_template.html" %}
+{% extends "tracker/detail_template.html" %}
 {% load static %}
 {% block name %}{{filmgroup}}{% endblock %}
-{% block objecthead %}<script src="{% static '/js/watchcount.js' %}" type="application/javascript"></script>{% endblock %}
-{% block content %}
+{% block detailhead %}<script src="{% static '/js/watchcount.js' %}" type="application/javascript"></script>
+<script src="{% static '/js/filmgroup_detail.js' %}" type="application/javascript"></script>{% endblock %}
+{% block detailcontent %}
 <h1>{{ filmgroup }}</h1>
-<p><a href="{% url 'tracker:filmgroup_create' %}"><button>Add new</button></a> <a href="{% url 'tracker:filmgroup_duplicate' filmgroup.id %}"><button>Duplicate</button></a> <a href="{% url 'tracker:filmgroup_update' filmgroup.id %}"><button>Change</button></a> <a href="{% url 'tracker:filmgroup_delete' filmgroup.id %}"><button>Delete</button></a></p>
-<p><button onclick="WatchCount(this)">Find film group watch count</button> <a href="{% url 'tracker:film_list' %}?group={{filmgroup.id}}" target="_blank"><button>Show films</button></a> <a href="{% url 'tracker:filmwatch_list' %}?group={{filmgroup.id}}" target="_blank"><button>Show film watches</button></a></p>
+<p><a href="{% url 'tracker:filmgroup_duplicate' filmgroup.id %}"><button>Duplicate</button></a> <a href="{% url 'tracker:filmgroup_update' filmgroup.id %}"><button>Change</button></a> <a href="{% url 'tracker:filmgroup_delete' filmgroup.id %}"><button>Delete</button></a></p>
+<p><button onclick="WatchCount(this)">Find film group watch count</button> <a href="{% url 'tracker:film_list' %}?group={{filmgroup.id}}" class="filter"><button>Show films</button></a> <a href="{% url 'tracker:filmwatch_list' %}?group={{filmgroup.id}}" class="filter"><button>Show film watches</button></a></p>
+<p><input type="checkbox" id="chk" onchange="Filters()"/><label for="chk">Include sub-groups</label></p>
 {% if filmgrouplist|length != 0 %}
 <p>Group:
 {% if filmgrouplist|length == 1 %} <a href="{% url 'tracker:filmgroup_detail' filmgroup.FilmGroup.id %}">{{ filmgroup.FilmGroup }}</a>

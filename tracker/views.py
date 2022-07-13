@@ -4,6 +4,7 @@ from django.views import View
 from .models import *
 from .owner import *
 from django.urls import reverse
+from django.db.models import Q
 class HomeView(LoginRequiredMixin,View):
     def get(self,request):
         return render(request,"tracker/home.html")
@@ -16,7 +17,12 @@ class FilmWatchListView(OwnerListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         if "film" in self.request.GET and self.request.GET["film"].isnumeric(): queryset = queryset.filter(Film_id=int(self.request.GET["film"]))
-        if "group" in self.request.GET and self.request.GET["group"].isnumeric(): queryset = queryset.filter(Film__FilmGroup_id=int(self.request.GET["group"]))
+        elif "group" in self.request.GET and self.request.GET["group"].isnumeric():
+            if "sub" in self.request.GET:
+                filmgroupid = int(self.request.GET["group"])
+                ids = FilmGroup.objects.filter(Q(id=filmgroupid)|Q(FilmGroup_id=filmgroupid)).values_list('id',flat=True)
+                queryset = queryset.filter(Film__FilmGroup_id__in=ids)
+            else: queryset = queryset.filter(Film__FilmGroup_id=int(self.request.GET["group"]))
         return queryset
 class FilmWatchDetailView(OwnerDetailView):
     model = FilmWatch
@@ -44,8 +50,14 @@ class FilmWatchDeleteRedirectView(DeleteRedirectView):
 class FilmListView(OwnerListView):
     model = Film
     def get_queryset(self):
-        if "group" in self.request.GET and self.request.GET["group"].isnumeric(): return super().get_queryset().filter(FilmGroup_id=int(self.request.GET["group"]))
-        else: return super().get_queryset()
+        queryset = super().get_queryset()
+        if "group" in self.request.GET and self.request.GET["group"].isnumeric():
+            if "sub" in self.request.GET:
+                filmgroupid = int(self.request.GET["group"])
+                ids = FilmGroup.objects.filter(Q(id=filmgroupid)|Q(FilmGroup_id=filmgroupid)).values_list('id',flat=True)
+                queryset = queryset.filter(FilmGroup_id__in=ids)
+            else: queryset = queryset.filter(FilmGroup_id=int(self.request.GET["group"]))
+        return queryset
 class FilmDetailView(OwnerDetailView):
     model = Film
     def get_context_data(self, **kwargs):

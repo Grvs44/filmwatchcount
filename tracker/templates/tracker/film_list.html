@@ -2,7 +2,6 @@
 {% block title %}Films{% endblock %}
 {% block content %}
 <h1>Films</h1>
-<a href="{% url 'tracker:film_create' %}" id="add"><button>Add a film</button></a>
 {% if film_list %}
 <p>{{film_list|length}} film{% if film_list|length != 1 %}s{% endif %}</p>
 <ul id="objectlist">

@@ -1,10 +1,11 @@
 {% extends "tracker/template.html" %}
 {% load static %}
 {% block title %}{% block name %}{% endblock %} - Film Watch Count{% endblock %}
-{% block head %}<link rel="stylesheet" href="{% static '/css/object.css' %}" type="text/css"/>{% block objecthead %}{% endblock %}{% endblock %}
+{% block head %}<link rel="stylesheet" type="text/css" href="{% static '/css/list.css' %}"/>
+<script src="{% static '/js/object.js' %}" type="application/javascript"></script>{% block objecthead %}{% endblock %}{% endblock %}
 {% block body %}
-<body{% block bodyattrs %}{% endblock %}>
-<button id="close" onclick="window.close()">Close</button>
+<body onload="CheckBack({% block onload %}{% endblock %})">
+<button onclick="Back()" id="back">←</button>
 {% block content %}{% endblock %}
 </body>
 {% endblock %}

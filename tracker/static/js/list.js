@@ -8,9 +8,7 @@ function Onload(){
 }
 function ObjectClick(e){
     e.preventDefault()
-    open(e.target.href,e.target.href,"height=500,width=500")
-}
-function Back(){
-    if(opener) close()
-    else history.back()
+    if(e.target.tagName == "BUTTON") var href = e.target.parentElement.href
+    else var href = e.target.href
+    open(href,href,"height=500,width=500")
 }
