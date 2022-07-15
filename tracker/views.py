@@ -12,6 +12,15 @@ class DeleteRedirectView(LoginRequiredMixin,View):
     viewname = ""
     def get(self,request,pk):
         return render(request,"tracker/deleteredirect.html",{"pk":pk,"view":self.viewname})
+class FilmWatchFields:
+    model = FilmWatch
+    fields = ["Film","DateWatched","Notes"]
+class FilmFields:
+    model = Film
+    fields = ["FilmGroup","Name","ReleaseYear"]
+class FilmGroupFields:
+    model = FilmGroup
+    fields = ["FilmGroup","Name"]
 class FilmWatchListView(OwnerListView):
     model = FilmWatch
     def get_queryset(self):
@@ -26,21 +35,19 @@ class FilmWatchListView(OwnerListView):
         return queryset
 class FilmWatchDetailView(OwnerDetailView):
     model = FilmWatch
-class FilmWatchCreateView(OwnerCreateView):
-    model = FilmWatch
-    fields = ["Film","DateWatched","Notes"]
+class FilmWatchCreateView(FilmWatchFields,OwnerCreateView):
     def get_success_url(self):
         return reverse('tracker:filmwatch_detail',args=[self.object.id])
-class FilmWatchUpdateView(OwnerUpdateView):
-    model = FilmWatch
-    fields = ["Film","DateWatched","Notes"]
+class FilmWatchUpdateView(FilmWatchFields,OwnerUpdateView):
     def get_success_url(self):
         return reverse('tracker:filmwatch_detail',args=[self.object.id])
-class FilmWatchDuplicateView(OwnerDuplicateView):
-    model = FilmWatch
-    fields = ["Film","DateWatched","Notes"]
+class FilmWatchDuplicateView(FilmWatchFields,OwnerDuplicateView):
     def get_success_url(self):
         return reverse('tracker:filmwatch_detail',args=[self.object.id])
+class FilmWatchCreateLinkedView(FilmWatchFields,OwnerDuplicateView):
+    def get(self,request,pk,*args,**kwargs):
+        self.object = FilmWatch(Film_id=pk)
+        return ProcessFormView.get(self,request,*args,**kwargs)
 class FilmWatchDeleteView(OwnerDeleteView):
     model = FilmWatch
     def get_success_url(self):
@@ -69,21 +76,19 @@ class FilmDetailView(OwnerDetailView):
             filmgroup = filmgroup.FilmGroup
         context["filmgrouplist"] = filmgrouplist
         return context
-class FilmCreateView(OwnerCreateView):
-    model = Film
-    fields = ["FilmGroup","Name","ReleaseYear"]
+class FilmCreateView(FilmFields,OwnerCreateView):
     def get_success_url(self):
         return reverse('tracker:film_detail',args=[self.object.id])
-class FilmUpdateView(OwnerUpdateView):
-    model = Film
-    fields = ["FilmGroup","Name","ReleaseYear"]
+class FilmUpdateView(FilmFields,OwnerUpdateView):
     def get_success_url(self):
         return reverse('tracker:film_detail',args=[self.object.id])
-class FilmDuplicateView(OwnerDuplicateView):
-    model = Film
-    fields = ["FilmGroup","Name","ReleaseYear"]
+class FilmDuplicateView(FilmFields,OwnerDuplicateView):
     def get_success_url(self):
         return reverse('tracker:film_detail',args=[self.object.id])
+class FilmCreateLinkedView(FilmFields,OwnerDuplicateView):
+    def get(self,request,pk,*args,**kwargs):
+        self.object = Film(FilmGroup_id=pk)
+        return ProcessFormView.get(self,request,*args,**kwargs)
 class FilmDeleteView(OwnerDeleteView):
     model = Film
     def get_success_url(self):
@@ -113,21 +118,19 @@ class FilmGroupDetailView(OwnerDetailView):
             filmgroup = filmgroup.FilmGroup
         context["filmgrouplist"] = filmgrouplist
         return context
-class FilmGroupCreateView(OwnerCreateView):
-    model = FilmGroup
-    fields = ["FilmGroup","Name"]
+class FilmGroupCreateView(FilmGroupFields,OwnerCreateView):
     def get_success_url(self):
         return reverse('tracker:filmgroup_detail',args=[self.object.id])
-class FilmGroupUpdateView(OwnerUpdateView):
-    model = FilmGroup
-    fields = ["FilmGroup","Name"]
+class FilmGroupUpdateView(FilmGroupFields,OwnerUpdateView):
     def get_success_url(self):
         return reverse('tracker:filmgroup_detail',args=[self.object.id])
-class FilmGroupDuplicateView(OwnerDuplicateView):
-    model = FilmGroup
-    fields = ["FilmGroup","Name"]
+class FilmGroupDuplicateView(FilmGroupFields,OwnerDuplicateView):
     def get_success_url(self):
         return reverse('tracker:filmgroup_detail',args=[self.object.id])
+class FilmGroupCreateLinkedView(FilmGroupFields,OwnerDuplicateView):
+    def get(self,request,pk,*args,**kwargs):
+        self.object = FilmGroup(FilmGroup_id=pk)
+        return ProcessFormView.get(self,request,*args,**kwargs)
 class FilmGroupDeleteView(OwnerDeleteView):
     model = FilmGroup
     def get_success_url(self):

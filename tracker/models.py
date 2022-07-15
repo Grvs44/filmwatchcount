@@ -2,6 +2,7 @@ from django.conf import settings
 from django.forms import ValidationError
 from django.forms import DateInput
 from django.db.models import *
+from django.shortcuts import reverse
 DateInput.input_type = "date"
 class FilmGroup(Model):
     User = ForeignKey(settings.AUTH_USER_MODEL,on_delete=CASCADE)
@@ -25,6 +26,11 @@ class Film(Model):
         elif self.FilmGroup: return self.Name + " (" + self.FilmGroup.Name + ")"
         elif self.ReleaseYear: return self.Name + " (" + str(self.ReleaseYear) + ")"
         else: return self.Name
+    def html_link(self):
+        if self.FilmGroup and self.ReleaseYear: return "<a href=\"%s\">%s</a> (%i, <a href=\"%s\">%s</a>)" % (reverse('tracker:film_detail',args=[self.id]),self.Name,self.ReleaseYear,reverse('tracker:filmgroup_detail',args=[self.FilmGroup_id]),self.FilmGroup.Name)
+        elif self.FilmGroup: return "<a href=\"%s\">%s</a> (<a href=\"%s\">%s</a>)" % (reverse('tracker:film_detail',args=[self.id]),self.Name,reverse('tracker:filmgroup_detail',args=[self.FilmGroup_id]),self.FilmGroup.Name)
+        elif self.ReleaseYear: return "<a href=\"%s\">%s</a> (%i)" % (reverse('tracker:film_detail',args=[self.id]),self.Name,self.ReleaseYear)
+        else: return "<a href=\"%s\">%s</a>" % (reverse('tracker:film_detail',args=[self.id]),self.Name)
     class Meta:
         ordering = ["Name","ReleaseYear"]
 class FilmWatch(Model):
