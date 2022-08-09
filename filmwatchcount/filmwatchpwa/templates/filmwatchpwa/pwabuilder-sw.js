@@ -1,6 +1,6 @@
 {% load static %}
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-const noCachePages = ['/create','/delete','/deleted','/duplicate','/update'];
+const noCachePages = ['create','delete','deleted','duplicate','update','pwadate'];
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     self.skipWaiting();

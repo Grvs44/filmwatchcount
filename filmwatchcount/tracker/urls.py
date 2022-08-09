@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import *
+from django.views.generic.base import TemplateView
 app_name = 'tracker'
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -28,5 +29,6 @@ urlpatterns = [
     path('filmgroup/<int:pk>/create', FilmGroupCreateLinkedView.as_view(), name='filmgroup_createlinked'),
     path('filmgroup/<int:pk>/delete', FilmGroupDeleteView.as_view(), name='filmgroup_delete'),
     path('filmgroup/<int:pk>/deleted', FilmGroupDeleteRedirectView.as_view(), name='filmgroup_deleteredirect'),
-    path('filmgroup/<int:pk>/count', FilmGroupCountView.as_view(), name='filmgroup_count')
+    path('filmgroup/<int:pk>/count', FilmGroupCountView.as_view(), name='filmgroup_count'),
+    path('settings', TemplateView.as_view(template_name='tracker/settings.html'), name='settings'),
 ]

@@ -1,0 +1,8 @@
+{% extends "tracker/template.html" %}
+{% load static %}
+{% block title %}Film Watch Count Settings{% endblock %}
+{% block head %}<script src="{% static '/js/settings.js' %}"></script>{% endblock %}
+{% block body %}<body onload="Onload()">
+<button id="update">Check for updates</button>
+{% block content %}{% endblock %}
+</body>{% endblock %}

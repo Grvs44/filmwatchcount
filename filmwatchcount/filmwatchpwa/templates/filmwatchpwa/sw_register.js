@@ -1,1 +1,1 @@
-if('serviceWorker' in navigator) navigator.serviceWorker.register('/pwabuilder-sw.js')
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/pwabuilder-sw.js',{updateViaCache:'all'})
