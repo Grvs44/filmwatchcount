@@ -1,5 +1,6 @@
 function Back(){
     if(opener && history.state == 1) close()
+    else if(document.referrer.endsWith("update") || document.referrer.endsWith("create") || document.referrer.endsWith("duplicate")) history.go(-2)
     else history.back()
 }
 function CheckBack(onload=null){

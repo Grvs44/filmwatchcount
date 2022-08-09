@@ -54,7 +54,7 @@ workbox.routing.registerRoute(
 );
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'image',
-  new workbox.strategies.StaleWhileRevalidate({
+  new workbox.strategies.CacheFirst({
     cacheName: "images",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
@@ -65,7 +65,7 @@ workbox.routing.registerRoute(
 );
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'font',
-  new workbox.strategies.StaleWhileRevalidate({
+  new workbox.strategies.CacheFirst({
     cacheName: "fonts",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
@@ -106,9 +106,10 @@ self.addEventListener('activate', event => {
         return caches.delete(name);
       }
     }));
+    (await caches.open("javascript")).add("/pwabuilder-sw.js");
     (await caches.open("offline")).add("/offline.html");
     (await caches.open("html")).add("/");
-    (await caches.open("json")).add("/manifest.json");
+    (await caches.open("json")).add("/manifest.webmanifest");
     (await caches.open("stylesheets")).add("{% static '/css/list.css' %}");
   })());
 });

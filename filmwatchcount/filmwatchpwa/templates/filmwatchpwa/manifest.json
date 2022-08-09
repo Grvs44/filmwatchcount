@@ -8,7 +8,6 @@
   "orientation": "any",
   "background_color": "#ffffff",
   "theme_color": "#d71b00",
-  "status_bar": "default",
   "icons": [
     {
       "src": "/static/images/app_icon_512x512.png",
