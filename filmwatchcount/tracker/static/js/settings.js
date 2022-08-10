@@ -1,36 +1,18 @@
+import {CheckUpdates} from "./pwaupdate.js"
 function Onload(){
-    document.getElementById("update").addEventListener("click",CheckUpdates)
+    document.getElementById("update").addEventListener("click",UpdateClick)
+    let lastUpdate = localStorage.lastUpdate
+    document.getElementById("lastupdate").innerText = (lastUpdate === undefined || isNaN(lastUpdate))? "never": new Date(Number(lastUpdate))
 }
-async function CheckUpdates(e){
+async function UpdateClick(e){
     e.target.disabled = true
-    let details = await(await fetch("/pwadate")).json()
-    let updated = 0
-    for(let file of Object.keys(details)){
-        let filename = "/" + file
-        let cachematch = await caches.match(filename)
-        if(cachematch === undefined){
-            await UpdateFile(filename)
-            updated++
-        }
-        else{
-            if((new Date(cachematch.headers.get("date")).getTime() / 1000) < details[file]){
-                await UpdateFile(filename)
-                updated++
-            }
-        }
-    }
-    e.target.disabled = false
-    alert(updated + " file(s) were updated")
+    let updated = await CheckUpdates()
+    document.getElementById("lastupdate").innerText = new Date(Number(localStorage.lastUpdate))
+    e.target.innerText = updated? "Updated": "Already up-to-date"
+    setTimeout(ResetUpdateBtn,4000,e.target)
 }
-async function UpdateFile(filename){
-    let fileresponse = await fetch(filename)
-    let contenttype = fileresponse.headers.get("content-type")
-    let cache
-    if(contenttype.includes("javascript"))
-        cache = await caches.open("javascript")
-    else if(contenttype.includes("json"))
-        cache = await caches.open("json")
-    else
-        cache = await caches.open("offline")
-    await cache.put(filename,fileresponse)
+function ResetUpdateBtn(btn){
+    btn.disabled = false
+    btn.innerText = "Check for updates"
 }
+window.Onload = Onload

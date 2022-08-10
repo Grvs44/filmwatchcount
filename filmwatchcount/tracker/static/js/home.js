@@ -1,4 +1,5 @@
-function Onload() {
+import {AutoUpdate} from "./pwaupdate.js"
+async function Onload() {
     var deferredPrompt
     const installbtn = document.getElementById('installbtn')
     addEventListener('beforeinstallprompt', e => {
@@ -15,4 +16,6 @@ function Onload() {
             }
         }
     })
+    if(await AutoUpdate()) document.getElementById("msg").innerText = "Downloaded new update"
 }
+window.Onload = Onload

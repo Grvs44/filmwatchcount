@@ -15,7 +15,7 @@ workbox.routing.registerRoute(
   new workbox.strategies.NetworkOnly()
 );
 workbox.routing.registerRoute(
-  ({event}) => event.request.destination === 'document',
+  ({event,url}) => (event.request.destination === 'document' && !url.endsWith(".js")),//hi
   new workbox.strategies.NetworkFirst({
     cacheName: "html",
     plugins: [
