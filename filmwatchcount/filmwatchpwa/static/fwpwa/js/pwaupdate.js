@@ -1,0 +1,41 @@
+import fileCache from "./filecache.json" assert {type:"json"}
+async function CheckUpdates(){
+    let updateHeaders = new Headers()
+    updateHeaders.append("pragma","no-cache")
+    let updated = false
+    let details = await(await fetch("/pwadate",{headers:updateHeaders})).json()
+    for(let file of details){
+        let filename = "/" + file[0]
+        let cachename = fileCache[file[0]]
+        let cache = await caches.open((cachename === undefined)? "offline": cachename)
+        let cachematch = await cache.match(filename)
+        if(cachematch === undefined || (new Date(cachematch.headers.get("date")).getTime() / 1000) < file[1]){
+            updated = true
+            if(filename.endsWith("-sw.js")){
+                await cache.delete(filename)
+                navigator.serviceWorker.getRegistrations().then(function(registrations){
+                    if(registrations.length)
+                      for(let registration of registrations)
+                        registration.unregister()
+                });
+            }
+            else{
+                let fileresponse = await fetch(filename,{headers:updateHeaders})
+                await cache.put(filename,fileresponse)
+            }
+        }
+    }
+    let now = Date.now()
+    if(updated) localStorage.lastUpdate = now
+    localStorage.lastCheck = now
+    return updated
+}
+async function AutoUpdate(){
+    if(localStorage && localStorage.lastUpdate){
+        let last = localStorage.lastCheck
+        if(isNaN(last) || Date.now() >= 14400000 + Number(last)) return await CheckUpdates()
+    }
+    else return await CheckUpdates()
+    return false
+}
+export {CheckUpdates,AutoUpdate}

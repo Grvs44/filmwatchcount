@@ -1,7 +1,7 @@
 {% extends "tracker/template.html" %}
 {% load static %}
-{% block head %}<script src="{% static '/js/list.js' %}" type="application/javascript"></script>
-<link rel="stylesheet" type="text/css" href="{% static '/css/list.css' %}"/>{% endblock %}
+{% block head %}<script src="{% static '/tracker/js/list.js' %}" type="application/javascript"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/tracker/css/list.css' %}"/>{% endblock %}
 {% block body %}
 <body onload="Onload()">
 <button onclick="history.back()" id="back">←</button>

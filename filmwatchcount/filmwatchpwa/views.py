@@ -17,9 +17,9 @@ def serviceworker_register(request):
 def offline(request):
     return render(request,"filmwatchpwa/offline.html")
 def date_list(request):
-    details = {}
+    details = []
     for file in TEMPLATE_DIR.iterdir():
-        details[file.name] = file.stat().st_mtime
-    response = JsonResponse(details)
+        details.append([file.name,file.stat().st_mtime])
+    response = JsonResponse(details,safe=False)
     response['cache-control'] = 'no-store'
     return response

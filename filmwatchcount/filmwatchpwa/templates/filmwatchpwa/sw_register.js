@@ -1,1 +1,1 @@
-if('serviceWorker' in navigator) navigator.serviceWorker.register('/pwabuilder-sw.js',{updateViaCache:'all'})
+if('serviceWorker' in navigator) navigator.serviceWorker.register('{% url "filmwatchpwa:sw" %}',{updateViaCache:'all'})

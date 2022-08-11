@@ -1,7 +1,7 @@
 {% extends "tracker/detail_template.html" %}
 {% load static %}
 {% block name %}{{film}}{% endblock %}
-{% block detailhead %}<script src="{% static '/js/watchcount.js' %}" type="application/javascript"></script>{% endblock %}
+{% block detailhead %}<script src="{% static '/tracker/js/watchcount.js' %}" type="application/javascript"></script>{% endblock %}
 {% block detailcontent %}
 <h1>{{ film.Name }}</h1>
 <p><a href="{% url 'tracker:filmwatch_createlinked' film.id %}"><button>Add watch</button></a> <a href="{% url 'tracker:film_duplicate' film.id %}"><button>Duplicate</button></a> <a href="{% url 'tracker:film_update' film.id %}"><button>Change</button></a> <a href="{% url 'tracker:film_delete' film.id %}"><button>Delete</button></a></p>

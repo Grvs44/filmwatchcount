@@ -1,19 +1,23 @@
 {% extends "tracker/template.html" %}
 {% load static %}
 {% block title %}Film Watch Count Settings{% endblock %}
-{% block head %}<script src="{% static '/js/settings.js' %}" type="module"></script>{% endblock %}
+{% block head %}<script src="{% static '/tracker/js/settings.js' %}" type="module"></script>
+<link rel="stylesheet" href="{% static '/tracker/css/settings.css' %}"/>{% endblock %}
 {% block body %}<body onload="Onload()">
 <h1>Settings</h1>
 <div>
 <h2>App</h2>
-<p>
-Last checked: <span id="lastupdate"></span>
-<button id="update">Check for updates</button>
-</p>
+<fieldset>
+<legend>Update</legend>
+<p>Last checked: <span id="lastcheck"></span></p>
+<p>Last updated: <span id="lastupdate"></span></p>
+<p><button id="update">Check for updates</button></p>
+</fieldset>
 </div>
 {% if request.user.is_staff %}<div>
 <h2>Admin</h2>
 <p><a href="/admin/"><button>Admin site</button></a></p>
 </div>{% endif %}
+<div id="done"><a href="{url 'tracker:home' %}"><button>Done</button></a></div>
 {% block content %}{% endblock %}
 </body>{% endblock %}

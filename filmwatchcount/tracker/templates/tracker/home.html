@@ -1,8 +1,8 @@
 {% extends "tracker/template.html" %}
 {% load static %}
 {% block head %}
-<link rel="stylesheet" href="{% static '/css/home.css' %}" type="text/css"/>
-<script src="{% static '/js/home.js' %}" type="module"></script>
+<link rel="stylesheet" href="{% static '/tracker/css/home.css' %}" type="text/css"/>
+<script src="{% static '/tracker/js/home.js' %}" type="module"></script>
 {% endblock %}
 {% block body %}
 <body onload="Onload()">
@@ -14,9 +14,9 @@
 </p>
 <h1>Film Watch Count</h1>
 <ul>
-    <li><a href="/filmgroup">Film groups</a></li>
-    <li><a href="/film">Films</a></li>
-    <li><a href="/filmwatch">Film watches</a></li>
+    <li><a href="{% url 'tracker:filmgroup_list' %}">Film groups</a></li>
+    <li><a href="{% url 'tracker:film_list' %}">Films</a></li>
+    <li><a href="{% url 'tracker:filmwatch_list' %}">Film watches</a></li>
 </ul>
 </body>
 {% endblock %}

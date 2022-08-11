@@ -1,4 +1,3 @@
-{% load static %}
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 const noCachePages = ['create','delete','deleted','duplicate','update','pwadate'];
 self.addEventListener("message", (event) => {
@@ -15,7 +14,7 @@ workbox.routing.registerRoute(
   new workbox.strategies.NetworkOnly()
 );
 workbox.routing.registerRoute(
-  ({event,url}) => (event.request.destination === 'document' && !url.endsWith(".js")),//hi
+  ({event}) => (event.request.destination === 'document'),
   new workbox.strategies.NetworkFirst({
     cacheName: "html",
     plugins: [
@@ -27,7 +26,7 @@ workbox.routing.registerRoute(
 );
 workbox.routing.setCatchHandler(async (options) => {
   const cache = await self.caches.open('offline');
-  if(options.request.destination === 'document') return (await cache.match('/offline.html')) || Response.error();
+  if(options.request.destination === 'document') return (await cache.match('{% url "filmwatchpwa:offline" %}')) || Response.error();
   return Response.error();
 });
 workbox.routing.registerRoute(
@@ -106,11 +105,11 @@ self.addEventListener('activate', event => {
         return caches.delete(name);
       }
     }));
-    (await caches.open("javascript")).add("/pwabuilder-sw.js");
-    (await caches.open("offline")).add("/offline.html");
-    (await caches.open("html")).add("/");
-    (await caches.open("json")).add("/manifest.webmanifest");
-    (await caches.open("stylesheets")).add("{% static '/css/list.css' %}");
+    let cacheAdd = [["javascript","{% url 'filmwatchpwa:sw' %}"],["offline","{% url 'filmwatchpwa:offline' %}"],["html","{% url 'tracker:home' %}"],["json","{% url 'filmwatchpwa:manifest' %}"]]
+    for(let item of cacheAdd){
+      let cache = await caches.open(item[0])
+      if((await cache.match(item[1])) === undefined) await cache.add(item[1])
+    }
   })());
 });
 function CheckIfNoCachePage(url){
