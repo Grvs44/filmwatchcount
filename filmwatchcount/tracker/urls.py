@@ -30,5 +30,10 @@ urlpatterns = [
     path('filmgroup/<int:pk>/delete', FilmGroupDeleteView.as_view(), name='filmgroup_delete'),
     path('filmgroup/<int:pk>/deleted', FilmGroupDeleteRedirectView.as_view(), name='filmgroup_deleteredirect'),
     path('filmgroup/<int:pk>/count', FilmGroupCountView.as_view(), name='filmgroup_count'),
-    path('settings', TemplateView.as_view(template_name='tracker/settings.html'), name='settings'),
+    path('settings', SettingsView.as_view(), name='settings'),
+    path('pwadate',date_list,name='pwadate'),
+    path('manifest.webmanifest',manifest,name='manifest'),
+    path('pwabuilder-sw.js',serviceworker,name='sw'),
+    path('sw_register.js',serviceworker_register,name="swregister"),
+    path('offline.html',offline,name='offline'),
 ]

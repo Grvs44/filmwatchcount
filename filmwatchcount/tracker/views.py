@@ -3,8 +3,14 @@ from django.shortcuts import get_object_or_404, render
 from django.views import View
 from .models import *
 from .owner import *
+from .pwaviews import *
 from django.urls import reverse
 from django.db.models import Q
+#try:
+from os import environ
+ADMIN_SITE_URL = __import__(environ["DJANGO_SETTINGS_MODULE"]).settings.ADMIN_SITE_URL
+del environ
+#except: ADMIN_SITE_URL = None
 class HomeView(LoginRequiredMixin,View):
     def get(self,request):
         return render(request,"tracker/home.html")
@@ -144,3 +150,6 @@ class FilmGroupCountView(LoginRequiredMixin,View):
             return HttpResponse(str(FilmWatch.objects.filter(Film__FilmGroup=filmgroup).count()),content_type="text/plain; charset=utf-8")
         else:
             raise Http404
+class SettingsView(LoginRequiredMixin,View):
+    def get(self,request):
+        return render(request,'tracker/settings.html',{"adminpath":ADMIN_SITE_URL})

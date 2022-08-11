@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'tracker.apps.TrackerConfig',
-    'filmwatchpwa.apps.FilmwatchpwaConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -126,3 +125,5 @@ STATIC_ROOT = BASE_DIR / "static"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ADMIN_SITE_URL = 'admin/'

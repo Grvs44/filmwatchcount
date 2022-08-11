@@ -1,6 +1,7 @@
-import {CheckUpdates} from "../../fwpwa/js/pwaupdate.js"
+import {CheckUpdates} from "./pwaupdate.js"
 function Onload(){
     document.getElementById("update").addEventListener("click",UpdateClick)
+    document.getElementById("back").addEventListener("click",BackClick)
     let lastUpdate = localStorage.lastUpdate
     let lastCheck = localStorage.lastCheck
     document.getElementById("lastupdate").innerText = (lastUpdate === undefined || isNaN(lastUpdate))? "never": new Date(Number(lastUpdate))
@@ -20,5 +21,9 @@ async function UpdateClick(e){
 function ResetUpdateBtn(btn){
     btn.disabled = false
     btn.innerText = "Check for updates"
+}
+function BackClick(e){
+    if(document.referrer === "") location.href = "../"
+    else history.back()
 }
 window.Onload = Onload

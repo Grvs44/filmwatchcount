@@ -3,7 +3,7 @@ async function CheckUpdates(){
     let updateHeaders = new Headers()
     updateHeaders.append("pragma","no-cache")
     let updated = false
-    let details = await(await fetch("/pwadate",{headers:updateHeaders})).json()
+    let details = await(await fetch("pwadate",{headers:updateHeaders})).json()
     for(let file of details){
         let filename = "/" + file[0]
         let cachename = fileCache[file[0]]

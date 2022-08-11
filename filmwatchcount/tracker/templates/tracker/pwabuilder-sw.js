@@ -26,7 +26,7 @@ workbox.routing.registerRoute(
 );
 workbox.routing.setCatchHandler(async (options) => {
   const cache = await self.caches.open('offline');
-  if(options.request.destination === 'document') return (await cache.match('{% url "filmwatchpwa:offline" %}')) || Response.error();
+  if(options.request.destination === 'document') return (await cache.match('{% url "tracker:offline" %}')) || Response.error();
   return Response.error();
 });
 workbox.routing.registerRoute(
@@ -105,7 +105,7 @@ self.addEventListener('activate', event => {
         return caches.delete(name);
       }
     }));
-    let cacheAdd = [["javascript","{% url 'filmwatchpwa:sw' %}"],["offline","{% url 'filmwatchpwa:offline' %}"],["html","{% url 'tracker:home' %}"],["json","{% url 'filmwatchpwa:manifest' %}"]]
+    let cacheAdd = [["javascript","{% url 'tracker:sw' %}"],["offline","{% url 'tracker:offline' %}"],["html","{% url 'tracker:home' %}"],["json","{% url 'tracker:manifest' %}"]]
     for(let item of cacheAdd){
       let cache = await caches.open(item[0])
       if((await cache.match(item[1])) === undefined) await cache.add(item[1])

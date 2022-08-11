@@ -2,8 +2,9 @@
 {% load static %}
 {% block title %}Film Watch Count Settings{% endblock %}
 {% block head %}<script src="{% static '/tracker/js/settings.js' %}" type="module"></script>
-<link rel="stylesheet" href="{% static '/tracker/css/settings.css' %}"/>{% endblock %}
+<link rel="stylesheet" type="text/css" href="{% static '/tracker/css/list.css' %}"/>{% endblock %}
 {% block body %}<body onload="Onload()">
+<button id="back">←</button>
 <h1>Settings</h1>
 <div>
 <h2>App</h2>
@@ -16,8 +17,7 @@
 </div>
 {% if request.user.is_staff %}<div>
 <h2>Admin</h2>
-<p><a href="/admin/"><button>Admin site</button></a></p>
+{% if adminpath %}<p><a href="/{{adminpath}}" target="_blank"><button>Admin site</button></a></p>{% endif %}
 </div>{% endif %}
-<div id="done"><a href="{url 'tracker:home' %}"><button>Done</button></a></div>
 {% block content %}{% endblock %}
 </body>{% endblock %}
