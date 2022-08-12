@@ -5,14 +5,13 @@ async function CheckUpdates(){
     let updated = false
     let details = await(await fetch("pwadate",{headers:updateHeaders})).json()
     for(let file of details){
-        let filename = "/" + file[0]
         let cachename = fileCache[file[0]]
         let cache = await caches.open((cachename === undefined)? "offline": cachename)
-        let cachematch = await cache.match(filename)
+        let cachematch = await cache.match(file[0])
         if(cachematch === undefined || (new Date(cachematch.headers.get("date")).getTime() / 1000) < file[1]){
             updated = true
-            if(filename.endsWith("-sw.js")){
-                await cache.delete(filename)
+            if(file[0].endsWith("-sw.js")){
+                await cache.delete(file[0])
                 navigator.serviceWorker.getRegistrations().then(function(registrations){
                     if(registrations.length)
                       for(let registration of registrations)
@@ -20,8 +19,8 @@ async function CheckUpdates(){
                 });
             }
             else{
-                let fileresponse = await fetch(filename,{headers:updateHeaders})
-                await cache.put(filename,fileresponse)
+                let fileresponse = await fetch(file[0],{headers:updateHeaders})
+                await cache.put(file[0],fileresponse)
             }
         }
     }

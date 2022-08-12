@@ -16,11 +16,6 @@ async function UpdateClick(e){
         e.target.innerText = "Updated"
     }
     else e.target.innerText = "Already up-to-date"
-    setTimeout(ResetUpdateBtn,4000,e.target)
-}
-function ResetUpdateBtn(btn){
-    btn.disabled = false
-    btn.innerText = "Check for updates"
 }
 function BackClick(e){
     if(document.referrer === "") location.href = "../"
