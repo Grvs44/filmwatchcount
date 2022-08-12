@@ -6,17 +6,13 @@ self.addEventListener("message", (event) => {
   }
 });
 workbox.routing.registerRoute(
-  new RegExp("/admin*"),
-  new workbox.strategies.NetworkOnly()
-);
-workbox.routing.registerRoute(
   ({url}) => CheckIfNoCachePage(url),
   new workbox.strategies.NetworkOnly()
 );
 workbox.routing.registerRoute(
   ({event}) => (event.request.destination === 'document'),
   new workbox.strategies.NetworkFirst({
-    cacheName: "html",
+    cacheName: "fw-html",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 100,
@@ -25,14 +21,14 @@ workbox.routing.registerRoute(
   })
 );
 workbox.routing.setCatchHandler(async (options) => {
-  const cache = await self.caches.open('offline');
+  const cache = await self.caches.open('fw-offline');
   if(options.request.destination === 'document') return (await cache.match('{% url "tracker:offline" %}')) || Response.error();
   return Response.error();
 });
 workbox.routing.registerRoute(
   ({event}) => (event.request.destination === 'script' || event.request.destination === 'javascript'),
   new workbox.strategies.StaleWhileRevalidate({
-    cacheName: "javascript",
+    cacheName: "fw-javascript",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 15,
@@ -43,7 +39,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'style',
   new workbox.strategies.StaleWhileRevalidate({
-    cacheName: "stylesheets",
+    cacheName: "fw-stylesheets",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 15,
@@ -54,7 +50,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'image',
   new workbox.strategies.CacheFirst({
-    cacheName: "images",
+    cacheName: "fw-images",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 15,
@@ -65,7 +61,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'font',
   new workbox.strategies.CacheFirst({
-    cacheName: "fonts",
+    cacheName: "fw-fonts",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 15,
@@ -76,7 +72,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   ({event}) => (event.request.destination === 'json' || event.request.destination === 'manifest'),
   new workbox.strategies.StaleWhileRevalidate({
-    cacheName: "json",
+    cacheName: "fw-json",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 4,
@@ -87,7 +83,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   ({url}) => (url.pathname.endsWith('/count') || url.pathname.endsWith('.txt')),
   new workbox.strategies.NetworkFirst({
-    cacheName: "text",
+    cacheName: "fw-text",
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 100,
@@ -96,16 +92,15 @@ workbox.routing.registerRoute(
   })
 );
 self.addEventListener('activate', event => {
-  console.log("activate");
   event.waitUntil((async () => {
     const names = await caches.keys();
-    const usedCacheNames = ['html','javascript','stylesheets','images','fonts','json','text','offline']
+    const usedCacheNames = ['fw-html','fw-javascript','fw-stylesheets','fw-images','fw-fonts','fw-json','fw-text','fw-offline']
     await Promise.all(names.map(name => {
       if (!usedCacheNames.includes(name)) {
         return caches.delete(name);
       }
     }));
-    let cacheAdd = [["javascript","{% url 'tracker:sw' %}"],["offline","{% url 'tracker:offline' %}"],["html","{% url 'tracker:home' %}"],["json","{% url 'tracker:manifest' %}"]]
+    let cacheAdd = [["fw-javascript","{% url 'tracker:sw' %}"],["fw-offline","{% url 'tracker:offline' %}"],["fw-html","{% url 'tracker:home' %}"],["fw-json","{% url 'tracker:manifest' %}"]]
     for(let item of cacheAdd){
       let cache = await caches.open(item[0])
       if((await cache.match(item[1])) === undefined) await cache.add(item[1])

@@ -6,7 +6,7 @@ async function CheckUpdates(){
     let details = await(await fetch("pwadate",{headers:updateHeaders})).json()
     for(let file of details){
         let cachename = fileCache[file[0]]
-        let cache = await caches.open((cachename === undefined)? "offline": cachename)
+        let cache = await caches.open((cachename === undefined)? "fw-offline": "fw-" + cachename)
         let cachematch = await cache.match(file[0])
         if(cachematch === undefined || (new Date(cachematch.headers.get("date")).getTime() / 1000) < file[1]){
             updated = true
@@ -25,13 +25,13 @@ async function CheckUpdates(){
         }
     }
     let now = Date.now()
-    if(updated) localStorage.lastUpdate = now
-    localStorage.lastCheck = now
+    if(updated) localStorage.fw_lastUpdate = now
+    localStorage.fw_lastCheck = now
     return updated
 }
 async function AutoUpdate(){
-    if(localStorage && localStorage.lastUpdate){
-        let last = localStorage.lastCheck
+    if(localStorage && localStorage.fw_lastUpdate){
+        let last = localStorage.fw_lastCheck
         if(isNaN(last) || Date.now() >= 14400000 + Number(last)) return await CheckUpdates()
     }
     else return await CheckUpdates()
