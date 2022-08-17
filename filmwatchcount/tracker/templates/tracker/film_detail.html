@@ -1,11 +1,23 @@
 {% extends "tracker/detail_template.html" %}
 {% load static %}
 {% block name %}{{film}}{% endblock %}
-{% block detailhead %}<script src="{% static '/tracker/js/watchcount.js' %}" type="application/javascript"></script>{% endblock %}
+{% block detailhead %}<script src="{% static '/tracker/js/watchcount.js' %}"></script>
+<script src="{% static '/tracker/js/film_detail.js' %}"></script>
+<meta name="fw-filmid" content="{{film.id}}">{% endblock %}
+{% block onload %}FilmLoad{% endblock %}
 {% block detailcontent %}
 <h1>{{ film.Name }}</h1>
-<p><a href="{% url 'tracker:filmwatch_createlinked' film.id %}"><button>Add watch</button></a> <a href="{% url 'tracker:film_duplicate' film.id %}"><button>Duplicate</button></a> <a href="{% url 'tracker:film_update' film.id %}"><button>Change</button></a> <a href="{% url 'tracker:film_delete' film.id %}"><button>Delete</button></a></p>
-<p><button onclick="WatchCount(this)">Find film watch count</button> <a href="{% url 'tracker:filmwatch_list' %}?film={{film.id}}"><button>Show film watches</button></a></p>
+<p>
+<a href="{% url 'tracker:filmwatch_createlinked' film.id %}"><button>Add watch</button></a>
+<a href="{% url 'tracker:film_duplicate' film.id %}"><button>Duplicate</button></a>
+<a href="{% url 'tracker:film_update' film.id %}"><button>Change</button></a>
+<a href="{% url 'tracker:film_delete' film.id %}"><button>Delete</button></a>
+</p>
+<p>
+<span><button onclick="WatchCount(this)">Find film watch count</button></span>
+<a href="{% url 'tracker:filmwatch_list' %}?film={{film.id}}"><button>Show film watches</button></a>
+<button id="addcompare">Add to compare</button>
+</p>
 {% if filmgrouplist|length != 0 %}
 <p>Group:
 {% if filmgrouplist|length == 1 %} <a href="{% url 'tracker:filmgroup_detail' film.FilmGroup.id %}">{{ film.FilmGroup }}</a>

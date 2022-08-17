@@ -2,11 +2,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.views import logout_then_login
 from django.views.generic.base import RedirectView
-from .settings import ADMIN_SITE_URL
 urlpatterns = [
     path('accounts/logout/?next=<str:login_url>', logout_then_login),
     path('accounts/', include('django.contrib.auth.urls')),
     path('tracker/', include("tracker.urls")),
     path('', RedirectView.as_view(url='/tracker')),
-    path(ADMIN_SITE_URL, admin.site.urls)
+    path('admin/', admin.site.urls)
 ]

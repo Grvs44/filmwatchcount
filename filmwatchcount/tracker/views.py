@@ -5,12 +5,8 @@ from .models import *
 from .owner import *
 from .pwaviews import *
 from django.urls import reverse
-from django.db.models import Q
-#try:
-from os import environ
-ADMIN_SITE_URL = __import__(environ["DJANGO_SETTINGS_MODULE"]).settings.ADMIN_SITE_URL
-del environ
-#except: ADMIN_SITE_URL = None
+from django.db.models import Q, Max, Count
+import json
 class HomeView(LoginRequiredMixin,View):
     def get(self,request):
         return render(request,"tracker/home.html")
@@ -108,6 +104,16 @@ class FilmCountView(LoginRequiredMixin,View):
             return HttpResponse(str(FilmWatch.objects.filter(Film=film).count()),content_type="text/plain; charset=utf-8")
         else:
             raise Http404
+class FilmCompareView(LoginRequiredMixin,View):
+    def get(self,request):
+        return render(request,"tracker/filmcompare.html")
+class FilmCompareContentView(LoginRequiredMixin,View):
+    def get(self,request,films):
+        filmlist = json.loads(films)
+        filmquery = Film.objects.filter(Q(id__in=filmlist)&Q(User=request.user))
+        mostwatched = filmquery.annotate(watchcount=Count("filmwatch")).order_by("-watchcount")
+        mostrecent = filmquery.annotate(lastwatched=Max("filmwatch__DateWatched")).order_by("-lastwatched")
+        return render(request,"tracker/filmcomparecontent.html",{"films":filmquery,"mostwatched":mostwatched,"mostrecent":mostrecent})
 class FilmGroupListView(OwnerListView):
     model = FilmGroup
     def get_queryset(self):
@@ -152,4 +158,4 @@ class FilmGroupCountView(LoginRequiredMixin,View):
             raise Http404
 class SettingsView(LoginRequiredMixin,View):
     def get(self,request):
-        return render(request,'tracker/settings.html',{"adminpath":ADMIN_SITE_URL})
+        return render(request,'tracker/settings.html')

@@ -1,0 +1,23 @@
+{% if films.length == 0 %}<p>No films to compare</p>
+{% else %}<div>
+<h2>Comparing films</h2>
+<ul>
+{% for film in films %}<li>
+{{film.html_link|safe}}
+</li>{% endfor %}
+</ul></div>
+<div>
+<h2>Most watched</h2>
+<ol>
+{% for film in mostwatched %}<li>
+{{film.html_link|safe}} ({{film.watchcount}})
+</li>{% endfor %}
+</ol></div>
+<div>
+<h2>Watched most recently</h2>
+<ol>
+{% for film in mostrecent %}<li>
+{{film.html_link|safe}} ({% if film.lastwatched %}{{film.lastwatched}}{% else %}No date{% endif %})
+</li>{% endfor %}
+</ol></div>
+{% endif %}
