@@ -1,10 +1,12 @@
 {% extends 'tracker/template.html' %}
 {% load static %}
 {% block head %}<link rel="stylesheet" href="{% static '/tracker/css/list.css' %}"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script src="{% static '/tracker/js/filmcompare.js' %}"></script>
 <link rel="stylesheet" href="{% static '/tracker/css/filmcompare.css' %}"/>{% endblock %}
 {% block body %}<body onload="CompareLoad()">
 <button onclick="history.back()" id="back">←</button>
 <h1>Film Comparison</h1>
+<span id="savearea"></span>
 <div id="content"></div>
 </body>{% endblock %}

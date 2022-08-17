@@ -1,11 +1,12 @@
 var shouldrefresh = false
 function Onload(){
-    document.getElementById("add").addEventListener("click",ObjectClick)
     addEventListener("focus",e => {if(shouldrefresh) location.reload()})
-    var list = document.getElementById("objectlist")
-    if(list)
+    if(!/android|iphone|ipad|ipod|blackberry/i.test(navigator.userAgent)){
+        document.getElementById("add").addEventListener("click",ObjectClick)
+        var list = document.getElementById("objectlist")
         for(var li of list.children)
             li.getElementsByTagName("a")[0].addEventListener("click",ObjectClick)
+    }
 }
 function ObjectClick(e){
     e.preventDefault()
