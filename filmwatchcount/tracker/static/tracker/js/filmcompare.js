@@ -12,6 +12,10 @@ async function CompareLoad(){
         savebtn.innerText = "Save"
         savebtn.onclick = Save
         document.getElementById("savearea").appendChild(savebtn)
+        let graphbtn = document.createElement("button")
+        graphbtn.innerText = "Show graph"
+        graphbtn.onclick = ToggleGraph
+        document.body.appendChild(graphbtn)
     }
 }
 function SetLinks(){
@@ -26,16 +30,42 @@ function ObjectClick(e){
     open(e.target.href,e.target.href,"height=500,width=500")
 }
 function Save(e){
-    let fileContent = "<html><head><title>Film Comparison</title><style>body{font-family:'Segoe UI';}</style></head><body><h1>Film Comparison</h1>"
-    for(let div of document.getElementById("content").getElementsByTagName("div")){
-        fileContent += "<h2>" + div.getElementsByTagName("h2")[0].innerText + "</h2>"
-        let uls = div.getElementsByTagName("ul")
-        let ols = div.getElementsByTagName("ol")
-        for(let li of ((uls.length)? uls: ols)[0].getElementsByTagName("li")){
-            fileContent += "<li>" + li.innerText + "</li>"
-        }
+    e.target.disabled = true
+    e.target.innerText = "Saving"
+    let content = document.createElement("body")
+    content.innerHTML = "<h1>Film Comparison</h1>" + document.getElementById("content").innerHTML
+    let graph = document.getElementById("graph")
+    if(graph && graph.style.display === "block") content.innerHTML += graph.innerHTML
+    let anchors = content.getElementsByTagName("a")
+    while(anchors.length){
+        anchors[0].outerHTML = anchors[0].innerHTML
     }
-    fileContent += "</body></html>"
+    let fileContent = "<!DOCTYPE html><html><head><title>Film Comparison</title><style>body{font-family:'Segoe UI';}</style></head>" + content.outerHTML + "</html>"
     let file = new File([fileContent],"Film Comparison.html",{type:"text/html;charset=utf-8"})
     saveAs(file)
+    setTimeout(RestoreSave,2000,e.target)
+}
+function RestoreSave(btn){
+    btn.innerText = "Save"
+    btn.disabled = false
+}
+async function ToggleGraph(e){
+    let graph = document.getElementById("graph")
+    if(graph){
+        if(graph.style.display === "block"){
+            graph.style.display = "none"
+            e.target.innerText = "Show graph"
+        }
+        else{
+            graph.style.display = "block"
+            e.target.innerText = "Hide graph"
+        }
+    }
+    else{
+        graph = document.createElement("div")
+        graph.id = "graph"
+        graph.innerHTML = await(await fetch("filmcomparegraph")).text()
+        document.body.appendChild(graph)
+        e.target.innerText = "Hide graph"
+    }
 }
