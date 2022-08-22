@@ -1,3 +1,3 @@
-async function WatchCount(btn){
-    btn.parentElement.innerHTML = "Watch count: " + await(await fetch(location.href + "/count")).text()
+async function WatchCount(){
+    document.getElementById("count").innerHTML = "Watch count: " + await(await fetch(location.href + "/count")).text()
 }

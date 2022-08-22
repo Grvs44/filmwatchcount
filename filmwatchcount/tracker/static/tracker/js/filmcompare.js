@@ -64,7 +64,7 @@ async function ToggleGraph(e){
     else{
         graph = document.createElement("div")
         graph.id = "graph"
-        graph.innerHTML = await(await fetch("filmcomparegraph")).text()
+        graph.innerHTML = await(await fetch("filmcompare" + localStorage.filmCompare + "/graph")).text()
         document.body.appendChild(graph)
         e.target.innerText = "Hide graph"
     }

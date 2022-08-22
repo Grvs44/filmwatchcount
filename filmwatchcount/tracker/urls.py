@@ -23,6 +23,7 @@ urlpatterns = [
     path('film/<int:pk>/count', FilmCountView.as_view(), name='film_count'),
     path('filmcompare', FilmCompareView.as_view(), name='filmcompare'),
     path('filmcompare<str:films>', FilmCompareContentView.as_view(), name='filmcomparecontent'),
+    path('filmcompare<str:films>/graph', FilmCompareGraphView.as_view(), name='filmcomparegraph'),
     path('filmgroup/', FilmGroupListView.as_view(), name='filmgroup_list'),
     path('filmgroup/<int:pk>', FilmGroupDetailView.as_view(), name='filmgroup_detail'),
     path('filmgroup/create', FilmGroupCreateView.as_view(), name='filmgroup_create'),

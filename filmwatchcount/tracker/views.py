@@ -50,6 +50,8 @@ class FilmWatchCreateLinkedView(FilmWatchFields,OwnerDuplicateView):
     def get(self,request,pk,*args,**kwargs):
         self.object = FilmWatch(Film_id=pk)
         return ProcessFormView.get(self,request,*args,**kwargs)
+    def get_success_url(self):
+        return reverse('tracker:filmwatch_detail',args=[self.object.id])
 class FilmWatchDeleteView(OwnerDeleteView):
     model = FilmWatch
     def get_success_url(self):
@@ -91,6 +93,8 @@ class FilmCreateLinkedView(FilmFields,OwnerDuplicateView):
     def get(self,request,pk,*args,**kwargs):
         self.object = Film(FilmGroup_id=pk)
         return ProcessFormView.get(self,request,*args,**kwargs)
+    def get_success_url(self):
+        return reverse('tracker:film_detail',args=[self.object.id])
 class FilmDeleteView(OwnerDeleteView):
     model = Film
     def get_success_url(self):
@@ -114,6 +118,9 @@ class FilmCompareContentView(LoginRequiredMixin,View):
         mostwatched = filmquery.annotate(watchcount=Count("filmwatch")).order_by("-watchcount")
         mostrecent = filmquery.annotate(lastwatched=Max("filmwatch__DateWatched")).order_by("-lastwatched")
         return render(request,"tracker/filmcomparecontent.html",{"films":filmquery,"mostwatched":mostwatched,"mostrecent":mostrecent})
+class FilmCompareGraphView(LoginRequiredMixin,View):
+    def get(self,request,films):
+        return HttpResponse("<p>TBC</p>")
 class FilmGroupListView(OwnerListView):
     model = FilmGroup
     def get_queryset(self):
@@ -143,6 +150,8 @@ class FilmGroupCreateLinkedView(FilmGroupFields,OwnerDuplicateView):
     def get(self,request,pk,*args,**kwargs):
         self.object = FilmGroup(FilmGroup_id=pk)
         return ProcessFormView.get(self,request,*args,**kwargs)
+    def get_success_url(self):
+        return reverse('tracker:filmgroup_detail',args=[self.object.id])
 class FilmGroupDeleteView(OwnerDeleteView):
     model = FilmGroup
     def get_success_url(self):
@@ -153,7 +162,12 @@ class FilmGroupCountView(LoginRequiredMixin,View):
     def get(self,request,pk):
         filmgroup = get_object_or_404(FilmGroup,id=pk)
         if filmgroup.User == request.user:
-            return HttpResponse(str(FilmWatch.objects.filter(Film__FilmGroup=filmgroup).count()),content_type="text/plain; charset=utf-8")
+            if "sub" in request.GET:
+                ids = FilmGroup.objects.filter(Q(id=filmgroup.id)|Q(FilmGroup=filmgroup)).values_list('id',flat=True)
+                queryset = FilmWatch.objects.filter(Film__FilmGroup_id__in=ids)
+                return HttpResponse(str(queryset.count()),content_type="text/plain; charset=utf-8")
+            else:
+                return HttpResponse(str(FilmWatch.objects.filter(Film__FilmGroup=filmgroup).count()),content_type="text/plain; charset=utf-8")
         else:
             raise Http404
 class SettingsView(LoginRequiredMixin,View):

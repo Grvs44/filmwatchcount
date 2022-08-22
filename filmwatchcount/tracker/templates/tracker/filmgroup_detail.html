@@ -1,13 +1,15 @@
 {% extends "tracker/detail_template.html" %}
 {% load static %}
 {% block name %}{{filmgroup}}{% endblock %}
-{% block detailhead %}<script src="{% static '/tracker/js/watchcount.js' %}" type="application/javascript"></script>
-<script src="{% static '/tracker/js/filmgroup_detail.js' %}" type="application/javascript"></script>{% endblock %}
+{% block detailhead %}<script src="{% static '/tracker/js/filmgroup_detail.js' %}"></script>{% endblock %}
 {% block onload %}Filters{% endblock %}
 {% block detailcontent %}
 <h1>{{ filmgroup }}</h1>
 <p><a href="{% url 'tracker:filmgroup_createlinked' filmgroup.id %}"><button>Add group</button></a> <a href="{% url 'tracker:film_createlinked' filmgroup.id %}"><button>Add film</button></a> <a href="{% url 'tracker:filmgroup_duplicate' filmgroup.id %}"><button>Duplicate</button></a> <a href="{% url 'tracker:filmgroup_update' filmgroup.id %}"><button>Change</button></a> <a href="{% url 'tracker:filmgroup_delete' filmgroup.id %}"><button>Delete</button></a></p>
-<p><button onclick="WatchCount(this)">Find film group watch count</button> <a href="{% url 'tracker:film_list' %}?group={{filmgroup.id}}" class="filter"><button>Show films</button></a> <a href="{% url 'tracker:filmwatch_list' %}?group={{filmgroup.id}}" class="filter"><button>Show film watches</button></a></p>
+<p><a href="{% url 'tracker:filmgroup_list' %}?group={{filmgroup.id}}"><button>Show sub-groups</button></a></p>
+<p><button onclick="WatchCount()">Find watch count</button> <span id="count"></span></p>
+<p><a href="{% url 'tracker:film_list' %}?group={{filmgroup.id}}" class="filter"><button>Show films</button></a></p>
+<p><a href="{% url 'tracker:filmwatch_list' %}?group={{filmgroup.id}}" class="filter"><button>Show film watches</button></a></p>
 <p><input type="checkbox" id="chk" onchange="Filters()"/><label for="chk">Include sub-groups</label></p>
 {% if filmgrouplist|length != 0 %}
 <p>Group:
