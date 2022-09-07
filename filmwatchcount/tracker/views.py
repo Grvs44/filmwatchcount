@@ -5,8 +5,9 @@ from .models import *
 from .owner import *
 from .pwaviews import *
 from django.urls import reverse
-from django.db.models import Q, Max, Count
+from django.db.models import Q, Max, Count, Min
 import json
+from django import forms
 class HomeView(LoginRequiredMixin,View):
     def get(self,request):
         return render(request,"tracker/home.html")
@@ -120,7 +121,40 @@ class FilmCompareContentView(LoginRequiredMixin,View):
         return render(request,"tracker/filmcomparecontent.html",{"films":filmquery,"mostwatched":mostwatched,"mostrecent":mostrecent})
 class FilmCompareGraphView(LoginRequiredMixin,View):
     def get(self,request,films):
-        return HttpResponse("<p>TBC</p>")
+        filmlist = json.loads(films)
+        filmquery = Film.objects.filter(Q(id__in=filmlist)&Q(User=request.user))
+        maxwatch = filmquery.annotate(watchcount=Count("filmwatch")).order_by("-watchcount")[0]
+        lastwatch = filmquery.annotate(lastwatched=Max("filmwatch__DateWatched")).order_by("lastwatched").filter(~Q(lastwatched=None))[0].lastwatched
+        earliestwatch = filmquery.annotate(firstwatched=Min("filmwatch__DateWatched")).order_by("firstwatched").filter(~Q(firstwatched=None))[0].firstwatched
+        latestwatchdelta = (lastwatch - earliestwatch).days
+        width = 600
+        height = 300
+        xscale = width / latestwatchdelta
+        yscale = height / maxwatch.watchcount
+        filmgraph = []
+        for film in filmquery:
+            filmwatches = FilmWatch.objects.filter(Film=film).filter(~Q(DateWatched=None))
+            if len(filmwatches) == 0: continue
+            points = ""
+            xcoord = (filmwatches[0].DateWatched - earliestwatch).days
+            ycoord = 1
+            points += "%i,%i" % (xcoord,ycoord)
+            for i in range(1,len(filmwatches)):
+                xcoord = (filmwatches[i].DateWatched - earliestwatch).days
+                points += " %i,%i" % (xcoord,ycoord)
+                ycoord += 1
+                points += " %i,%i" % (xcoord,ycoord)
+            xcoord = latestwatchdelta
+            points += " %i,%i" % (xcoord,ycoord)
+            filmgraph.append([film.Name,points,"black",xcoord,ycoord])
+        return render(request,"tracker/filmcomparegraph.html",{
+            "films":filmquery,
+            "maxwatch":maxwatch,
+            "earliestwatch":earliestwatch,
+            "filmgraph":filmgraph,
+            "height":height,
+            "width":width,
+        })
 class FilmGroupListView(OwnerListView):
     model = FilmGroup
     def get_queryset(self):

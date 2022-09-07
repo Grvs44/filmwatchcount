@@ -1,0 +1,5 @@
+{% load static %}<link rel="stylesheet" href="{% static '/tracker/css/filmgraph.css' %}"/>
+<svg height="{{height}}" width="{{width}}">
+{% for item in filmgraph %}<polyline points="{{item.1}}" style="stroke:{{item.2}}"/>
+<text x="{{item.3}}" y="{{item.4}}" fill="{{item.2}}">{{item.0}}</text>{% endfor %}
+</svg>
