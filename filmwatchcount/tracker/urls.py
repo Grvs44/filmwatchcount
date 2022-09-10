@@ -1,9 +1,14 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
-from django.views.generic.base import TemplateView
+from rest_framework.routers import DefaultRouter
 app_name = 'tracker'
+router = DefaultRouter()
+router.register(r'filmgroup', FilmGroupViewSet)
+router.register(r'film', FilmViewSet)
+router.register(r'filmwatch', FilmWatchViewSet)
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
+    path('api/', include(router.urls)),
     path('filmwatch/', FilmWatchListView.as_view(), name='filmwatch_list'),
     path('filmwatch/<int:pk>', FilmWatchDetailView.as_view(), name='filmwatch_detail'),
     path('filmwatch/create', FilmWatchCreateView.as_view(), name='filmwatch_create'),
