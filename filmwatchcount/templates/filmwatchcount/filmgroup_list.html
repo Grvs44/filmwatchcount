@@ -1,0 +1,13 @@
+{% extends "filmwatchcount/list_template.html" %}
+{% block title %}Film groups{% endblock %}
+{% block content %}
+<h1>Film groups</h1>
+{% if filmgroup_list %}
+<p>{{filmgroup_list|length}} film group{% if filmgroup_list|length != 1 %}s{% endif %}</p>
+<ul id="objectlist">
+{% for filmgroup in filmgroup_list %}<li><a href="{% url 'filmwatchcount:filmgroup_detail'  filmgroup.id %}">{{filmgroup}}</a></li>{% endfor %}
+</ul>
+{% else %}
+<p>No film groups</p>
+{% endif %}
+{% endblock %}

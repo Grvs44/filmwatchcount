@@ -1,0 +1,47 @@
+from django.urls import path, include
+from .views import *
+from rest_framework.routers import DefaultRouter
+app_name = 'filmwatchcount'
+router = DefaultRouter()
+router.register(r'filmgroup', FilmGroupViewSet)
+router.register(r'film', FilmViewSet)
+router.register(r'filmwatch', FilmWatchViewSet)
+urlpatterns = [
+    path('', HomeView.as_view(), name='home'),
+    path('api/', include(router.urls)),
+    path('filmwatch/', FilmWatchListView.as_view(), name='filmwatch_list'),
+    path('filmwatch/<int:pk>', FilmWatchDetailView.as_view(), name='filmwatch_detail'),
+    path('filmwatch/create', FilmWatchCreateView.as_view(), name='filmwatch_create'),
+    path('filmwatch/<int:pk>/update', FilmWatchUpdateView.as_view(), name='filmwatch_update'),
+    path('filmwatch/<int:pk>/duplicate', FilmWatchDuplicateView.as_view(), name='filmwatch_duplicate'),
+    path('filmwatch/<int:pk>/create', FilmWatchCreateLinkedView.as_view(), name='filmwatch_createlinked'),
+    path('filmwatch/<int:pk>/delete', FilmWatchDeleteView.as_view(), name='filmwatch_delete'),
+    path('filmwatch/<int:pk>/deleted', FilmWatchDeleteRedirectView.as_view(), name='filmwatch_deleteredirect'),
+    path('film/', FilmListView.as_view(), name='film_list'),
+    path('film/<int:pk>', FilmDetailView.as_view(), name='film_detail'),
+    path('film/create', FilmCreateView.as_view(), name='film_create'),
+    path('film/<int:pk>/update', FilmUpdateView.as_view(), name='film_update'),
+    path('film/<int:pk>/duplicate', FilmDuplicateView.as_view(), name='film_duplicate'),
+    path('film/<int:pk>/create', FilmCreateLinkedView.as_view(), name='film_createlinked'),
+    path('film/<int:pk>/delete', FilmDeleteView.as_view(), name='film_delete'),
+    path('film/<int:pk>/deleted', FilmDeleteRedirectView.as_view(), name='film_deleteredirect'),
+    path('film/<int:pk>/count', FilmCountView.as_view(), name='film_count'),
+    path('filmcompare', FilmCompareView.as_view(), name='filmcompare'),
+    path('filmcompare<str:films>', FilmCompareContentView.as_view(), name='filmcomparecontent'),
+    path('filmcompare<str:films>/graph', FilmCompareGraphView.as_view(), name='filmcomparegraph'),
+    path('filmgroup/', FilmGroupListView.as_view(), name='filmgroup_list'),
+    path('filmgroup/<int:pk>', FilmGroupDetailView.as_view(), name='filmgroup_detail'),
+    path('filmgroup/create', FilmGroupCreateView.as_view(), name='filmgroup_create'),
+    path('filmgroup/<int:pk>/update', FilmGroupUpdateView.as_view(), name='filmgroup_update'),
+    path('filmgroup/<int:pk>/duplicate', FilmGroupDuplicateView.as_view(), name='filmgroup_duplicate'),
+    path('filmgroup/<int:pk>/create', FilmGroupCreateLinkedView.as_view(), name='filmgroup_createlinked'),
+    path('filmgroup/<int:pk>/delete', FilmGroupDeleteView.as_view(), name='filmgroup_delete'),
+    path('filmgroup/<int:pk>/deleted', FilmGroupDeleteRedirectView.as_view(), name='filmgroup_deleteredirect'),
+    path('filmgroup/<int:pk>/count', FilmGroupCountView.as_view(), name='filmgroup_count'),
+    path('settings', SettingsView.as_view(), name='settings'),
+    path('pwadate',date_list,name='pwadate'),
+    path('manifest.webmanifest',manifest,name='manifest'),
+    path('pwabuilder-sw.js',serviceworker,name='sw'),
+    path('sw_register.js',serviceworker_register,name="swregister"),
+    path('offline.html',offline,name='offline'),
+]

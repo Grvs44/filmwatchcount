@@ -1,1 +1,0 @@
-if('serviceWorker' in navigator) navigator.serviceWorker.register('{% url "tracker:sw" %}',{updateViaCache:'all'})

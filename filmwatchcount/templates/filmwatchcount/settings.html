@@ -1,0 +1,31 @@
+{% extends "filmwatchcount/template.html" %}
+{% load static %}
+{% block title %}Film Watch Count Settings{% endblock %}
+{% block head %}<script src="{% static '/filmwatchcount/js/settings.js' %}" type="module"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/filmwatchcount/css/list.css' %}"/>{% endblock %}
+{% block body %}<body onload="Onload()">
+<button id="back">←</button>
+<h1>Settings</h1>
+<div>
+<h2>Account</h2>
+<p><a href="{% url 'password_change' %}" target="_blank"><button>Change password</button></a></p>
+</div>
+<div>
+<h2>App</h2>
+<fieldset>
+<legend>Update</legend>
+<p>Last checked: <span id="lastcheck"></span></p>
+<p>Last updated: <span id="lastupdate"></span></p>
+<p><button id="update">Check for updates</button></p>
+</fieldset>
+<fieldset>
+<legend>Clear</legend>
+<p><button id="cache">Clear cache</button></p>
+<p><button id="data">Clear data</button></p>
+</fieldset>
+</div>
+{% if request.user.is_staff and adminpath %}<div>
+<h2>Admin</h2>
+<p><a href="{% url 'admin:index' %}" target="_blank"><button>Admin site</button></a></p>
+</div>{% endif %}
+</body>{% endblock %}

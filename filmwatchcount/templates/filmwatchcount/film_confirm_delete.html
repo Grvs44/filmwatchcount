@@ -1,0 +1,10 @@
+{% extends "filmwatchcount/form_template.html" %}
+{% block name %}Delete {{ film }}{% endblock %}
+{% block content %}
+<h1>Delete film</h1>
+<p>Are you sure you want to delete the film: {{ film }}?</p>
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="Delete">
+</form>
+{% endblock %}
