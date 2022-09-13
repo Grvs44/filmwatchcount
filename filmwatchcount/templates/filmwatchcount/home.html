@@ -1,23 +1,19 @@
 {% extends "filmwatchcount/template.html" %}
 {% load static %}
 {% block head %}
-<link rel="stylesheet" href="{% static '/filmwatchcount/css/home.css' %}" type="text/css"/>
-<script src="{% static '/filmwatchcount/js/home.js' %}" type="module"></script>
+<link rel="stylesheet" href="{% static '/filmwatchcount/css/home.css' %}"/>
+<script src="{% static '/filmwatchcount/js/home.js' %}"></script>
 {% endblock %}
 {% block body %}
 <body onload="Onload()">
-<p>Welcome{% if request.user.first_name|length != 0 %}, {{request.user.first_name}}{% endif %}.
-<a href="{% url 'logout' %}?next=/"><button>Logout</button></a>
-<a href="{% url 'filmwatchcount:settings' %}"><button>Settings</button></a>
-<button id="installbtn">Install</button>
-<span id="msg"></span>
-</p>
-<h1>Film Watch Count</h1>
-<ul>
-    <li><a href="{% url 'filmwatchcount:filmgroup_list' %}">Film groups</a></li>
-    <li><a href="{% url 'filmwatchcount:film_list' %}">Films</a></li>
-    <li><a href="{% url 'filmwatchcount:filmwatch_list' %}">Film watches</a></li>
-    <li><a href="{% url 'filmwatchcount:filmcompare' %}">Film comparison</a></li>
+<header>
+<h1><button id="menubtn">Menu</button> Film Watch Count</h1>
+<ul id="menu">
+<li>Welcome{% if request.user.first_name|length != 0 %}, {{request.user.first_name}}{% endif %}</li>
+<li><a href="{% url 'logout' %}?next={% url 'filmwatchcount:home' %}"><button>Logout</button></a></li>
+<li id="installbtn"><button>Install</button></li>
 </ul>
+</header>
+<ul id="content"></ul>
 </body>
 {% endblock %}

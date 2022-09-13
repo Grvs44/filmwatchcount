@@ -1,4 +1,3 @@
-import {AutoUpdate} from "./pwaupdate.js"
 async function Onload() {
     var deferredPrompt
     const installbtn = document.getElementById('installbtn')
@@ -16,6 +15,32 @@ async function Onload() {
             }
         }
     })
-    if(await AutoUpdate()) document.getElementById("msg").innerText = "Downloaded new update"
+    var content = document.getElementById('content')
+    var headers = new Headers()
+    headers.append('cache-control','public,max-age=31536000')
+    var response = await fetch('api/',{headers:headers})
+    if(response.status == 200){
+        var responseData = await response.json()
+        for(var key of Object.keys(responseData)){
+            var heading = document.createElement('h2')
+            heading.innerText = key
+            heading.onclick = event => ShowData(event,responseData[key])
+            var div = document.createElement('div')
+            var li = document.createElement('li')
+            li.append(heading,div)
+            content.append(li)
+        }
+    }
+    else{
+        var li = document.createElement('li')
+        li.innerText = 'Couldn\'t download data'
+        content.append(li)
+    }
 }
-window.Onload = Onload
+async function ShowData(event,url){
+    let div = event.target.parentElement.getElementsByTagName('div')[0]
+    let response = await fetch(url)
+    if(response.status == 200){
+        div.innerText = await response.text()
+    }
+}

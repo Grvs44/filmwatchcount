@@ -5,15 +5,15 @@ TEMPLATE_DIR = Path(__file__).parent / "templates/filmwatchcount"
 PWA_FILES = [Path(TEMPLATE_DIR / "manifest.webmanifest"),Path(TEMPLATE_DIR / "pwabuilder-sw.js"),Path(TEMPLATE_DIR / "sw_register.js"),Path(TEMPLATE_DIR / "offline.html")]
 del TEMPLATE_DIR
 def manifest(request):
-    response = render(request,"filmwatchcount/manifest.webmanifest",content_type="application/manifest+json")
+    response = render(request,"filmwatchcount/manifest.webmanifest",content_type="application/manifest+json; charset=utf-8")
     response['cache-control'] = 'public,max-age=31536000'
     return response
 def serviceworker(request):
-    response = render(request,"filmwatchcount/pwabuilder-sw.js",content_type="application/javascript")
+    response = render(request,"filmwatchcount/pwabuilder-sw.js",content_type="application/javascript; charset=utf-8")
     response['cache-control'] = 'public,max-age=31536000'
     return response
 def serviceworker_register(request):
-    response = render(request,"filmwatchcount/sw_register.js",content_type="application/javascript")
+    response = render(request,"filmwatchcount/sw_register.js",content_type="application/javascript; charset=utf-8")
     response['cache-control'] = 'public,max-age=31536000'
     return response
 def offline(request):
