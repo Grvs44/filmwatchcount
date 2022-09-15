@@ -1,0 +1,28 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+<meta charset="utf-8"/>
+<link rel="manifest" href="{% url 'filmwatchcount:manifest' %}"/>
+<script src="{% url 'filmwatchcount:swregister' %}"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="author" content="Joe Greaves"/>
+<link rel="icon" href="{% static '/filmwatchcount/images/app_icon.png' %}">
+<title>{% block title %}Film Watch Count{% endblock %}</title>
+<link rel="stylesheet" href="{% static '/filmwatchcount/css/main.css' %}"/>
+<script src="{% static '/filmwatchcount/js/menu.js' %}"></script>
+{% block head %}{% endblock %}
+</head>
+<body>
+<header>
+{% if showback %}<button onclick="history.back()" id="back">←</button>{% endif %}
+<button id="menubtn">Menu</button>
+<h1 id="title">Film Watch Count</h1>
+<ul id="menu">
+<li>Welcome{% if request.user.first_name|length != 0 %}, {{request.user.first_name}}{% endif %}</li>
+<li><a href="{% url 'logout' %}?next={% url 'filmwatchcount:home' %}"><button>Logout</button></a></li>
+<li id="installbtn"><button>Install</button></li>
+</ul>
+</header>
+{% block body %}{% endblock %}
+</body>
+</html>

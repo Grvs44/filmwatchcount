@@ -5,7 +5,6 @@ from .permissions import *
 class TopViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated,IsOwner]
     def get_queryset(self):
-        print(self.request.GET)
         queryset = self.queryset.filter(User=self.request.user)
         if 'order' in self.request.GET:
             try:

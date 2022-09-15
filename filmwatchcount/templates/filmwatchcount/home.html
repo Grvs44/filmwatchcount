@@ -1,19 +1,7 @@
-{% extends "filmwatchcount/template.html" %}
+{% extends "filmwatchcount/main.html" %}
 {% load static %}
-{% block head %}
-<link rel="stylesheet" href="{% static '/filmwatchcount/css/home.css' %}"/>
-<script src="{% static '/filmwatchcount/js/home.js' %}"></script>
+{% block head %}<script src="{% static '/filmwatchcount/js/home.js' %}"></script>
 {% endblock %}
 {% block body %}
-<body onload="Onload()">
-<header>
-<h1><button id="menubtn">Menu</button> Film Watch Count</h1>
-<ul id="menu">
-<li>Welcome{% if request.user.first_name|length != 0 %}, {{request.user.first_name}}{% endif %}</li>
-<li><a href="{% url 'logout' %}?next={% url 'filmwatchcount:home' %}"><button>Logout</button></a></li>
-<li id="installbtn"><button>Install</button></li>
-</ul>
-</header>
 <ul id="content"></ul>
-</body>
 {% endblock %}

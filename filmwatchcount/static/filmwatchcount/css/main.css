@@ -19,8 +19,24 @@ header{
     top:0;
     left:0;
     position:sticky;
+    border:1px solid #000;
+    border-radius: 0px 0px 5px 5px;
+    background-color:#fff;
 }
 #menu{
     display:none;
     list-style-type:none;
+}
+#installbtn{display:none;}
+#title{display:inline;}
+#back{
+    font-size:1.5em;
+    background-color:transparent;
+}
+table,tr,td,th{
+    border-collapse:collapse;
+    border:1px solid #000;
+}
+#more{
+    display:none;
 }

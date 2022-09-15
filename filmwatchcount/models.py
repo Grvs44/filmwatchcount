@@ -43,3 +43,4 @@ class FilmWatch(Model):
         else: return str(self.Film)
     class Meta:
         verbose_name_plural="Film watches"
+        ordering = ["id"]

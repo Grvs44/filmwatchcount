@@ -1,20 +1,4 @@
 async function Onload() {
-    var deferredPrompt
-    const installbtn = document.getElementById('installbtn')
-    addEventListener('beforeinstallprompt', e => {
-        installbtn.style.display = "inline"
-        deferredPrompt = e
-    })
-    installbtn.addEventListener('click', async () => {
-        if (deferredPrompt !== null) {
-            deferredPrompt.prompt()
-            const {outcome} = await deferredPrompt.userChoice
-            if (outcome === 'accepted') {
-                deferredPrompt = null
-                installbtn.remove()
-            }
-        }
-    })
     var content = document.getElementById('content')
     var headers = new Headers()
     headers.append('cache-control','public,max-age=31536000')
@@ -35,12 +19,5 @@ async function Onload() {
         var li = document.createElement('li')
         li.innerText = 'Couldn\'t download data'
         content.append(li)
-    }
-}
-async function ShowData(event,url){
-    let div = event.target.parentElement.getElementsByTagName('div')[0]
-    let response = await fetch(url)
-    if(response.status == 200){
-        div.innerText = await response.text()
     }
 }
