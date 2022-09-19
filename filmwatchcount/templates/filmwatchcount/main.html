@@ -13,6 +13,7 @@
 {% block head %}{% endblock %}
 </head>
 <body>
+<div id="content">
 <header>
 {% if showback %}<button onclick="history.back()" id="back">←</button>{% endif %}
 <button id="menubtn">Menu</button>
@@ -24,5 +25,6 @@
 </ul>
 </header>
 {% block body %}{% endblock %}
+</div>
 </body>
 </html>

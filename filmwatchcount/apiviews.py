@@ -1,9 +1,12 @@
 from django.core.exceptions import FieldError
 from rest_framework import viewsets
+from rest_framework.authentication import SessionAuthentication
+from knox.auth import TokenAuthentication
 from .serializers import *
 from .permissions import *
 class TopViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated,IsOwner]
+    authentication_classes = [TokenAuthentication,SessionAuthentication]
     def get_queryset(self):
         queryset = self.queryset.filter(User=self.request.user)
         if 'order' in self.request.GET:

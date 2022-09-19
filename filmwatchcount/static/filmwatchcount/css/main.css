@@ -27,8 +27,12 @@ header{
     display:none;
     list-style-type:none;
 }
-#installbtn{display:none;}
-#title{display:inline;}
+#installbtn{
+    display:none;
+}
+h1{
+    display:inline;
+}
 #back{
     font-size:1.5em;
     background-color:transparent;
@@ -39,4 +43,10 @@ table,tr,td,th{
 }
 #more{
     display:none;
+}
+.close{
+    background-color:#f00;
+    color:#fff;
+    font-size:larger;
+    border:1px solid #fff;
 }

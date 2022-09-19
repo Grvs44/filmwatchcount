@@ -7,6 +7,9 @@ function ToggleMenu(e){
         menu.style.display = 'block'
     }
 }
+function SetTitle(title){
+    document.getElementById('title').innerText = document.title = title
+}
 addEventListener('pageshow',()=>{
     var deferredPrompt
     const installbtn = document.getElementById('installbtn')
