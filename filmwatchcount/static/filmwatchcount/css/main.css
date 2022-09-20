@@ -6,7 +6,6 @@ body,select{
     border:1px solid #000;
 }
 #content form{
-    display:none;
     margin:0.4em;
 }
 #content h2{
