@@ -9,9 +9,8 @@ async function GetData(url){
         var li
         for(var record of content.results){
             li = document.createElement('li')
-            li.innerText = record.summary
+            li.innerText = record.str
             li.dataID = record.id
-            //li.onclick = ItemClicked
             ul.appendChild(li)
         }
         document.getElementById('total').innerText = content.count
@@ -52,19 +51,24 @@ async function ItemClicked(event){
                 for(var field in data){
                     if(fields[field].read_only) continue
                     p = document.createElement('p')
-                    input = document.createElement('input')
-                    if(fields[field].type in fieldTypes){
-                        input.type = fieldTypes[fields[field].type]
+                    if(fields[field].long){
+                        input = document.createElement('textarea')
                     }
                     else{
-                        input.type = fields[field].type
+                        input = document.createElement('input')
+                        if(fields[field].type in fieldTypes){
+                            input.type = fieldTypes[fields[field].type]
+                        }
+                        else{
+                            input.type = fields[field].type
+                        }
                     }
                     input.required = fields[field].required
                     input.value = data[field]
                     label = document.createElement('label')
                     label.innerText = fields[field].label
                     label.htmlFor = input
-                    p.append(label,input)
+                    p.append(label,document.createElement('br'),input)
                     form.appendChild(p)
                 }
                 p = document.createElement('p')

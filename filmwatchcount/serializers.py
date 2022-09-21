@@ -1,22 +1,22 @@
 from rest_framework.serializers import ModelSerializer, CharField
 from .models import FilmGroup, Film, FilmWatch
-class FilmGroupSerializer(ModelSerializer):
+class TopSerializer(ModelSerializer):
     class Meta:
+        exclude = ['User']
+class FilmGroupSerializer(TopSerializer):
+    class Meta(TopSerializer.Meta):
         model = FilmGroup
-        exclude = ['User']
-class FilmSerializer(ModelSerializer):
-    class Meta:
+class FilmSerializer(TopSerializer):
+    class Meta(TopSerializer.Meta):
         model = Film
-        exclude = ['User']
-class FilmWatchSerializer(ModelSerializer):
-    class Meta:
+class FilmWatchSerializer(TopSerializer):
+    class Meta(TopSerializer.Meta):
         model = FilmWatch
-        exclude = ['User']
 
 class SummarySerializer(ModelSerializer):
-    summary = CharField(source='__str__', read_only=True)
+    str = CharField(source='__str__', read_only=True)
     class Meta:
-        fields = ['id','summary']
+        fields = ['id','str']
 class FilmGroupSummarySerializer(SummarySerializer):
     class Meta(SummarySerializer.Meta):
         model = FilmGroup

@@ -4,19 +4,17 @@ from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.filters import SearchFilter, OrderingFilter
 from knox.auth import TokenAuthentication
+from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import *
 from .permissions import *
+from .metadata import TextMetadata
+from . import filters
 class TopViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated,IsOwner]
     authentication_classes = [TokenAuthentication,SessionAuthentication]
-    def get_queryset(self):
-        queryset = self.queryset.filter(User=self.request.user)
-        if 'order' in self.request.GET:
-            try:
-                queryset.order_by(self.request.GET['order'])
-            except FieldError: pass
-        return queryset
+    filter_backends = [filters.OwnerFilter,SearchFilter,DjangoFilterBackend,OrderingFilter]
     def perform_create(self, serializer):
         serializer.save(User=self.request.user)
     def get_summary_serializer(self, *args, **kwargs):
@@ -36,43 +34,28 @@ class FilmGroupViewSet(TopViewSet):
     queryset = FilmGroup.objects.all()
     serializer_class = FilmGroupSerializer
     summary_serializer_class = FilmGroupSummarySerializer
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        if 'group' in self.request.GET and self.request.GET['group'].isnumeric():
-            filmgroupid = int(self.request.GET['group'])
-            if 'sub' in self.request.GET:
-                ids = FilmGroup.objects.filter(Q(id=filmgroupid)|Q(FilmGroup_id=filmgroupid)).values_list('id',flat=True)
-                queryset = queryset.filter(FilmGroup_id__in=ids)
-            else:
-                queryset = queryset.filter(FilmGroup_id=filmgroupid)
-        return queryset
+    search_fields = ['Name']
+    ordering_fields = ['Name']
+    filterset_fields = ['FilmGroup']
 
 class FilmViewSet(TopViewSet):
     queryset = Film.objects.all()
     serializer_class = FilmSerializer
     summary_serializer_class = FilmSummarySerializer
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        if "group" in self.request.GET and self.request.GET["group"].isnumeric():
-            if "sub" in self.request.GET:
-                filmgroupid = int(self.request.GET["group"])
-                ids = FilmGroup.objects.filter(Q(id=filmgroupid)|Q(FilmGroup_id=filmgroupid)).values_list('id',flat=True)
-                queryset = queryset.filter(FilmGroup_id__in=ids)
-            else: queryset = queryset.filter(FilmGroup_id=int(self.request.GET["group"]))
-        return queryset
+    search_fields = ['Name']
+    ordering_fields = ['Name','ReleaseYear']
+    filterset_fields = {
+        'FilmGroup':['exact'],
+        'ReleaseYear': ['exact','lt','gt'],
+    }
 
 class FilmWatchViewSet(TopViewSet):
     queryset = FilmWatch.objects.all()
     serializer_class = FilmWatchSerializer
     summary_serializer_class = FilmWatchSummarySerializer
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        if "film" in self.request.GET and self.request.GET["film"].isnumeric():
-            queryset = queryset.filter(Film_id=int(self.request.GET["film"]))
-        elif "group" in self.request.GET and self.request.GET["group"].isnumeric():
-            if "sub" in self.request.GET:
-                filmgroupid = int(self.request.GET["group"])
-                ids = FilmGroup.objects.filter(Q(id=filmgroupid)|Q(FilmGroup_id=filmgroupid)).values_list('id',flat=True)
-                queryset = queryset.filter(Film__FilmGroup_id__in=ids)
-            else: queryset = queryset.filter(Film__FilmGroup_id=int(self.request.GET["group"]))
-        return queryset
+    metadata_class = TextMetadata
+    ordering_fields = ['DateWatched']
+    filterset_fields = {
+        'Film': ['exact'],
+        'DateWatched': ['exact','lt','gt'],
+    }
