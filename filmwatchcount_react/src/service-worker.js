@@ -10,7 +10,7 @@
 import { clientsClaim } from 'workbox-core';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { CacheFirst } from 'workbox-strategies';
+import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 
 clientsClaim();
 
@@ -50,6 +50,13 @@ registerRoute(
   ({ request, sameOrigin }) => sameOrigin && request.destination === 'image',
   new CacheFirst({
     cacheName: 'images',
+  })
+);
+
+registerRoute(
+  ({ request, sameOrigin }) => sameOrigin && request.destination === 'manifest',
+  new StaleWhileRevalidate({
+    cacheName: 'manifest',
   })
 );
 
