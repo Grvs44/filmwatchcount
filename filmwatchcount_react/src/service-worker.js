@@ -55,7 +55,7 @@ registerRoute(
 
 registerRoute(
   ({ request, sameOrigin }) => sameOrigin && request.destination === 'manifest',
-  new StaleWhileRevalidate({
+  new CacheFirst({
     cacheName: 'manifest',
   })
 );
