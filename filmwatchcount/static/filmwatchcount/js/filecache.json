@@ -1,6 +1,0 @@
-{
-    "manifest.webmanifest":"json",
-    "offline.html":"offline",
-    "pwabuilder-sw.js":"javascript",
-    "sw_register.js":"javascript"
-}

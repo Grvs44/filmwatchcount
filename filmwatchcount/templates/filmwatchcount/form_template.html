@@ -1,0 +1,11 @@
+{% extends 'filmwatchcount/main.html' %}
+{% block body %}
+<p>
+<form action="" method="post" autocomplete="off">
+{% block content %}{% endblock %}
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="{{submit_label}}">
+</form>
+</p>
+{% endblock %}

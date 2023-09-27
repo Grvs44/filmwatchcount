@@ -3,5 +3,11 @@
 {% block head %}<script src="{% static '/filmwatchcount/js/home.js' %}"></script>
 {% endblock %}
 {% block body %}
-<ul id="content"></ul>
+Welcome{% if request.user.first_name|length != 0 %}, {{request.user.first_name}}{% endif %}
+<a href="{% url 'logout' 'filmwatchcount:home' %}"><button>Logout</button></a>
+<ul id="content">
+<li><a href="{% url 'filmwatchcount:filmgroup_list' %}">Film groups</a></li>
+<li><a href="{% url 'filmwatchcount:film_list' %}">Films</a></li>
+<li><a href="{% url 'filmwatchcount:filmwatch_list' %}">Film watches</a></li>
+</ul>
 {% endblock %}

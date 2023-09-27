@@ -1,13 +1,154 @@
-from django.urls import path, include
+from django.urls import path
 
-from .views import *
+from . import views
 
 app_name = 'filmwatchcount'
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
-    path('filmwatch/', FilmWatchView.as_view(), name='filmwatch'),
-    path('film/', FilmView.as_view(), name='film'),
-    path('filmgroup/', FilmGroupView.as_view(), name='filmgroup'),
-    path('settings', SettingsView.as_view(), name='settings'),
+    path('', views.HomeView.as_view(), name='home'),
+    path(
+        'filmwatch/',
+        views.FilmWatchListView.as_view(),
+        name='filmwatch_list'
+    ),
+    path(
+        'filmwatch/<int:pk>',
+        views.FilmWatchDetailView.as_view(),
+        name='filmwatch_detail'
+    ),
+    path(
+        'filmwatch/create',
+        views.FilmWatchCreateView.as_view(),
+        name='filmwatch_create'
+    ),
+    path(
+        'filmwatch/<int:pk>/update',
+        views.FilmWatchUpdateView.as_view(),
+        name='filmwatch_update'
+    ),
+    path(
+        'filmwatch/<int:pk>/duplicate',
+        views.FilmWatchDuplicateView.as_view(),
+        name='filmwatch_duplicate'
+    ),
+    path(
+        'filmwatch/<int:pk>/create',
+        views.FilmWatchCreateLinkedView.as_view(),
+        name='filmwatch_createlinked'
+    ),
+    path(
+        'filmwatch/<int:pk>/delete',
+        views.FilmWatchDeleteView.as_view(),
+        name='filmwatch_delete'
+    ),
+    path(
+        'filmwatch/<int:pk>/deleted',
+        views.FilmWatchDeleteRedirectView.as_view(),
+        name='filmwatch_deleteredirect'
+    ),
+    path(
+        'film/',
+        views.FilmListView.as_view(),
+        name='film_list'
+    ),
+    path(
+        'film/<int:pk>',
+        views.FilmDetailView.as_view(),
+        name='film_detail'
+    ),
+    path(
+        'film/create',
+        views.FilmCreateView.as_view(),
+        name='film_create'
+    ),
+    path(
+        'film/<int:pk>/update',
+        views.FilmUpdateView.as_view(),
+        name='film_update'
+    ),
+    path(
+        'film/<int:pk>/duplicate',
+        views.FilmDuplicateView.as_view(),
+        name='film_duplicate'
+    ),
+    path(
+        'film/<int:pk>/create',
+        views.FilmCreateLinkedView.as_view(),
+        name='film_createlinked'
+    ),
+    path(
+        'film/<int:pk>/delete',
+        views.FilmDeleteView.as_view(),
+        name='film_delete'
+    ),
+    path(
+        'film/<int:pk>/deleted',
+        views.FilmDeleteRedirectView.as_view(),
+        name='film_deleteredirect'
+    ),
+    path(
+        'film/<int:pk>/count',
+        views.FilmCountView.as_view(),
+        name='film_count'
+    ),
+    path(
+        'filmcompare',
+        views.FilmCompareView.as_view(),
+        name='filmcompare'
+    ),
+    path(
+        'filmcompare<str:films>',
+        views.FilmCompareContentView.as_view(),
+        name='filmcomparecontent'
+    ),
+    path(
+        'filmcompare<str:films>/graph',
+        views.FilmCompareGraphView.as_view(),
+        name='filmcomparegraph'
+    ),
+    path(
+        'filmgroup/',
+        views.FilmGroupListView.as_view(),
+        name='filmgroup_list'
+    ),
+    path(
+        'filmgroup/<int:pk>',
+        views.FilmGroupDetailView.as_view(),
+        name='filmgroup_detail'
+    ),
+    path(
+        'filmgroup/create',
+        views.FilmGroupCreateView.as_view(),
+        name='filmgroup_create'
+    ),
+    path(
+        'filmgroup/<int:pk>/update',
+        views.FilmGroupUpdateView.as_view(),
+        name='filmgroup_update'
+    ),
+    path(
+        'filmgroup/<int:pk>/duplicate',
+        views.FilmGroupDuplicateView.as_view(),
+        name='filmgroup_duplicate'
+    ),
+    path(
+        'filmgroup/<int:pk>/create',
+        views.FilmGroupCreateLinkedView.as_view(),
+        name='filmgroup_createlinked'
+    ),
+    path(
+        'filmgroup/<int:pk>/delete',
+        views.FilmGroupDeleteView.as_view(),
+        name='filmgroup_delete'
+    ),
+    path(
+        'filmgroup/<int:pk>/deleted',
+        views.FilmGroupDeleteRedirectView.as_view(),
+        name='filmgroup_deleteredirect'
+    ),
+    path(
+        'filmgroup/<int:pk>/count',
+        views.FilmGroupCountView.as_view(),
+        name='filmgroup_count'
+    ),
 ]

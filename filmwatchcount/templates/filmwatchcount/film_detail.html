@@ -1,0 +1,33 @@
+{% extends "filmwatchcount/detail_template.html" %}
+{% load static %}
+{% block name %}{{film}}{% endblock %}
+{% block detailhead %}<script src="{% static '/filmwatchcount/js/watchcount.js' %}"></script>
+<script src="{% static '/filmwatchcount/js/film_detail.js' %}"></script>
+<meta name="fw-filmid" content="{{film.id}}">{% endblock %}
+{% block onload %}FilmLoad{% endblock %}
+{% block detailcontent %}
+<h1>{{ film.Name }}</h1>
+<p>
+<a href="{% url 'filmwatchcount:filmwatch_createlinked' film.id %}"><button>Add watch</button></a>
+<a href="{% url 'filmwatchcount:film_duplicate' film.id %}"><button>Duplicate</button></a>
+<a href="{% url 'filmwatchcount:film_update' film.id %}"><button>Update</button></a>
+<a href="{% url 'filmwatchcount:film_delete' film.id %}"><button>Delete</button></a>
+</p>
+<p>
+<span><button onclick="WatchCount(this)">Find film watch count</button></span>
+<a href="{% url 'filmwatchcount:filmwatch_list' %}?film={{film.id}}"><button>Show film watches</button></a>
+<button id="addcompare">Add to compare</button>
+</p>
+{% if filmgrouplist|length != 0 %}
+<p>Group:
+{% if filmgrouplist|length == 1 %} <a href="{% url 'filmwatchcount:filmgroup_detail' film.FilmGroup.id %}">{{ film.FilmGroup }}</a>
+{% else %}
+<ul>
+{% for filmgroup in filmgrouplist %}
+<li><a href="{% url 'filmwatchcount:filmgroup_detail' filmgroup.id %}">{{ filmgroup }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "filmwatchcount/form_template.html" %}
+{% block name %}
+{% if filmgroup.id == None %}New Film Group
+{% else %}{{filmgroup}}
+{% endif %}
+{% endblock %}
+{% block content %}
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="{{submit}}">
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "filmwatchcount/template.html" %}
+{% load static %}
+{% block head %}<script src="{% static '/filmwatchcount/js/list.js' %}" type="application/javascript"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/filmwatchcount/css/list.css' %}"/>{% endblock %}
+{% block body %}
+<body onload="Onload()">
+<button onclick="history.back()" id="back">←</button>
+<a href="create" id="add"><button>+</button></a>
+{% block content %}{% endblock %}
+</body>
+{% endblock %}
