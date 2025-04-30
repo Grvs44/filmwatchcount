@@ -5,7 +5,6 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, OrderingFilter
-from knox.auth import TokenAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import *
 from .permissions import *
@@ -13,7 +12,7 @@ from .metadata import TextMetadata
 from . import filters
 class TopViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated,IsOwner]
-    authentication_classes = [TokenAuthentication,SessionAuthentication]
+    authentication_classes = [SessionAuthentication]
     filter_backends = [filters.OwnerFilter,SearchFilter,DjangoFilterBackend,OrderingFilter]
     def perform_create(self, serializer):
         serializer.save(User=self.request.user)
