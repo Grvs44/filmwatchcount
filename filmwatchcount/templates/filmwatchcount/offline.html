@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<script type="application/javascript">
+function Back(){
+    if(opener) close()
+    else history.back()
+}
+</script>
+<link rel="stylesheet" type="text/css" href="{% static '/filmwatchcount/css/list.css' %}"/>
+<title>You are offline</title>
+</head>
+<body style="font-family:'Segoe UI'">
+<button onclick="Back()" id="back">←</button>
+<h1>You are currently disconnected from the Internet</h1>
+<p>Please check your connection then refresh this page</p>
+<p>You can browse any cached pages, but no changes can be made offline</p>
+</body>
+</html>
