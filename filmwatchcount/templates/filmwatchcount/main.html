@@ -16,7 +16,7 @@
 <h1 id="title">{% block header_title %}Film Watch Count{% endblock %}</h1>
 <ul id="menu">
 <li>Welcome{% if request.user.first_name|length != 0 %}, {{request.user.first_name}}{% endif %}</li>
-<li><a href="{% url 'logout' %}?next={% url 'filmwatchcount:home' %}"><button>Logout</button></a></li>
+<li><a href="{% url 'logout' 'filmwatchcount:home' %}"><button>Logout</button></a></li>
 </ul>
 </header>
 {% block body %}{% endblock %}
