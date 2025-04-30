@@ -1,0 +1,24 @@
+{% load static %}{
+  "name": "Film Watch Count",
+  "short_name": "Film Watch Count",
+  "description": "Web database system for tracking how many times you've watched films",
+  "start_url": "{% url 'filmwatchcount:home' %}",
+  "display": "standalone",
+  "scope": "{% url 'filmwatchcount:home' %}",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#d71b00",
+  "icons": [
+    {
+      "src": "{% static '/filmwatchcount/images/app_icon_512x512.png' %}",
+      "sizes": "512x512"
+    },
+    {
+      "src": "{% static '/filmwatchcount/images/app_icon.png' %}",
+      "type": "image/png",
+      "sizes": "160x160"
+    }
+  ],
+  "dir": "ltr",
+  "lang": "en-gb"
+}
