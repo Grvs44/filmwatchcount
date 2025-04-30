@@ -1,9 +1,9 @@
 '''Export Film Watch Count data for a given user'''
 # pylint:disable=no-member
 import json
-from ... import models
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand, CommandParser
+from ... import models
 
 
 def find_groups(user: User, parent: models.FilmGroup | None):
