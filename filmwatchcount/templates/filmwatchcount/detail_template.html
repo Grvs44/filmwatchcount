@@ -1,0 +1,7 @@
+{% extends "filmwatchcount/object_template.html" %}
+{% load static %}
+{% block objecthead %}<link rel="stylesheet" type="text/css" href="{% static '/filmwatchcount/css/list.css' %}"/>{% block detailhead %}{% endblock %}{% endblock %}
+{% block content %}
+<a href="create" id="add"><button>+</button></a>
+{% block detailcontent %}{% endblock %}
+{% endblock %}
