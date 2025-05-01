@@ -8,25 +8,33 @@ from django.db.transaction import atomic
 from ... import models
 
 
-@atomic
-def load_groups(data: list[dict], parent: models.FilmGroup | None):
+def load_groups(user: User, data: list[dict], parent: models.FilmGroup | None):
     for item in data:
         group = models.FilmGroup.objects.create(
-            Name=item['name'], FilmGroup=parent)
-        load_groups(item['groups'], group)
+            User=user,
+            Name=item['name'],
+            FilmGroup=parent
+        )
+        load_groups(user, item['groups'], group)
 
 
-def load_films(data: list[dict], group: models.FilmGroup | None):
+def load_films(user: User, data: list[dict], group: models.FilmGroup | None):
     for item in data:
         film = models.Film.objects.create(
-            Name=item['name'], FilmGroup=group, ReleaseYear=item['release_year'])
-        load_watches(item['watches'], film)
+            User=user,
+            Name=item['name'],
+            FilmGroup=group,
+            ReleaseYear=item['release_year']
+        )
+        load_watches(user, item['watches'], film)
 
 
-def load_watches(data: list[dict], film: models.Film):
+def load_watches(user: User, data: list[dict], film: models.Film):
     models.FilmWatch.objects.bulk_create([models.FilmWatch(
+        User=user,
         Film=film,
-        DateWatched=date.fromisoformat(item['date_watched']),
+        DateWatched=None if item['date_watched'] is None
+        else date.fromisoformat(item['date_watched']),
         Notes=item['notes']
     ) for item in data])
 
@@ -49,10 +57,16 @@ class Command(BaseCommand):
             help='Skip confirmation prompt'
         )
 
+    @atomic
     def handle(self, *args, **options) -> None:
         username = options['username']
         file = options['file']
-        if not options['no-input']:
+        user = User.objects.filter(username=username).first()
+        if user is None:
+            self.stderr.write(
+                f'User {username} does not exist', self.style.ERROR)
+            return
+        if not options['no_input']:
             self.stdout.write(
                 f'Import data from {file} to user {username}? (y/n)')
             if input() != 'y':
@@ -60,6 +74,7 @@ class Command(BaseCommand):
                 return
         with open(file) as f:
             data = json.load(f)
-        load_groups(data, None)
+        load_films(user, data.get('films', []), None)
+        load_groups(user, data.get('groups', []), None)
         self.stdout.write(
             f'Imported data from {file} to {username}', self.style.SUCCESS)

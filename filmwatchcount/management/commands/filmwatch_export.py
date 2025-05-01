@@ -15,7 +15,7 @@ def find_groups(user: User, parent: models.FilmGroup | None):
     } for group in groups]
 
 
-def find_films(user: User, group: models.FilmGroup):
+def find_films(user: User, group: models.FilmGroup | None):
     films = models.Film.objects.filter(User=user, FilmGroup=group).all()
     return [{
         'name': film.Name,
@@ -54,5 +54,6 @@ class Command(BaseCommand):
             self.stderr.write(
                 f'User {username} does not exist', self.style.ERROR)
             return
-        result = find_groups(user, None)
+        result = {'films': find_films(
+            user, None), 'groups': find_groups(user, None)}
         self.stdout.write(json.dumps(result, indent=options['indent']))
