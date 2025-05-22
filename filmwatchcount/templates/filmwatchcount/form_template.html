@@ -1,11 +1,7 @@
-{% extends 'filmwatchcount/main.html' %}
-{% block body %}
-<p>
-<form action="" method="post" autocomplete="off">
-{% block content %}{% endblock %}
-{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="{{submit_label}}">
-</form>
-</p>
+{% extends 'filmwatchcount/object_template.html' %}
+{% load static %}
+{% block onload %}Onload{% endblock %}
+{% block objecthead %}
+<script src="{% static '/filmwatchcount/js/form_template.js' %}" type="application/javascript"></script>
+{% block formhead %}{% endblock %}
 {% endblock %}

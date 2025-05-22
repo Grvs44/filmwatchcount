@@ -4,50 +4,50 @@ from django.views.generic.edit import ProcessFormView, CreateView, DeleteView, U
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class ContextMixin:
-    context = {}
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs).update(self.context)
-
-
-class UserMixin:
+class OwnerListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
-        return super().get_queryset().filter(User=self.request.user)
+        return super(OwnerListView, self).get_queryset().filter(User=self.request.user)
 
 
-class OwnerListView(UserMixin, LoginRequiredMixin, ListView):
-    pass
+class OwnerDetailView(LoginRequiredMixin, DetailView):
+    def get_queryset(self):
+        return super(OwnerDetailView, self).get_queryset().filter(User=self.request.user)
 
 
-class OwnerDetailView(UserMixin, LoginRequiredMixin, DetailView):
-    pass
-
-
-class OwnerCreateView(ContextMixin, UserMixin, LoginRequiredMixin, CreateView):
-    template_name = 'filmwatchcount/form_template.html'
-    context = {'submit_label': 'Create'}
-
+class OwnerCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         object = form.save(commit=False)
         object.User = self.request.user
         object.save()
         return super(OwnerCreateView, self).form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["submit"] = "Create"
+        return context
 
-class OwnerUpdateView(ContextMixin, UserMixin, LoginRequiredMixin, UpdateView):
-    template_name = 'filmwatchcount/form_template.html'
-    context = {'submit_label': 'Update'}
+
+class OwnerUpdateView(LoginRequiredMixin, UpdateView):
+    def get_queryset(self):
+        return super(OwnerUpdateView, self).get_queryset().filter(User=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["submit"] = "Update"
+        return context
 
 
-class OwnerDeleteView(ContextMixin, UserMixin, LoginRequiredMixin, DeleteView):
-    template_name = 'filmwatchcount/form_template.html'
-    context = {'submit_label': 'Delete'}
+class OwnerDeleteView(LoginRequiredMixin, DeleteView):
+    def get_queryset(self):
+        return super(OwnerDeleteView, self).get_queryset().filter(User=self.request.user)
 
 
 class OwnerDuplicateView(OwnerCreateView):
-    template_name = 'filmwatchcount/form_template.html'
-
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         return ProcessFormView.get(self, request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["submit"] = "Create"
+        return context
