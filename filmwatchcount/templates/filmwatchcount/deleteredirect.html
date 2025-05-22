@@ -1,7 +1,7 @@
 <script type="application/javascript">
-  (async function(){
-      await(await caches.open("html")).delete("/{{view}}/{{pk}}")
-      if(opener) close()
-      else location.href = "/{{view}}"
-  })()
+(async function(){
+    await(await caches.open("html")).delete("/{{view}}/{{pk}}")
+    if(opener) close()
+    else location.href = "/{{view}}"
+})()
 </script>
