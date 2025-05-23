@@ -1,0 +1,4 @@
+include filmwatchcount/templates/filmwatchcount/*
+include filmwatchcount/static/filmwatchcount/css/*
+include filmwatchcount/static/filmwatchcount/images/*
+include filmwatchcount/static/filmwatchcount/js/*
