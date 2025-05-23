@@ -16,6 +16,7 @@ def load_groups(user: User, data: list[dict], parent: models.FilmGroup | None):
             FilmGroup=parent
         )
         load_groups(user, item['groups'], group)
+        load_films(user, item['films'], group)
 
 
 def load_films(user: User, data: list[dict], group: models.FilmGroup | None):
