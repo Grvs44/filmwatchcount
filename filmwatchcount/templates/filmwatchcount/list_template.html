@@ -4,15 +4,15 @@
 <link rel="stylesheet" type="text/css" href="{% static '/filmwatchcount/css/list.css' %}"/>{% endblock %}
 {% block body %}
 <body>
-<button onclick="history.back()" id="back">←</button>
+<a href=".."><button id="back">←</button></a>
 <a href="create" id="add"><button>+</button></a>
-<h1>{% block heading %}{% endblock %}</h1>
+<h1>{% block heading %}{% endblock %} ({{ page_obj.paginator.count }})</h1>
 <div id="page">
-<span>Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }}</span>
 {% if page_obj.has_previous %}
 <a href="?page=1">&laquo; first</a>
 <a href="?page={{ page_obj.previous_page_number }}">previous</a>
 {% endif %}
+<span>{{ page_obj.start_index }} to {{ page_obj.end_index }}</span>
 {% if page_obj.has_next %}
 <a href="?page={{ page_obj.next_page_number }}">next</a>
 <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
