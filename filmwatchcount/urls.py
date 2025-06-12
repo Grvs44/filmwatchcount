@@ -151,10 +151,4 @@ urlpatterns = [
         views.FilmGroupCountView.as_view(),
         name='filmgroup_count'
     ),
-    path('settings', views.SettingsView.as_view(), name='settings'),
-    path('pwadate', views.date_list, name='pwadate'),
-    path('manifest.webmanifest', views.manifest, name='manifest'),
-    path('pwabuilder-sw.js', views.serviceworker, name='sw'),
-    path('sw_register.js', views.serviceworker_register, name="swregister"),
-    path('offline.html', views.offline, name='offline'),
 ]

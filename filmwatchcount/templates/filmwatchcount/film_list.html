@@ -1,9 +1,8 @@
 {% extends "filmwatchcount/list_template.html" %}
 {% block title %}Films{% endblock %}
+{% block heading %}Films{% endblock %}
 {% block content %}
-<h1>Films</h1>
 {% if film_list %}
-<p>{{film_list|length}} film{% if film_list|length != 1 %}s{% endif %}</p>
 <ul id="objectlist">
 {% for film in film_list %}<li><a href="{% url 'filmwatchcount:film_detail' film.id %}">{{film}}</a></li>{% endfor %}
 </ul>
