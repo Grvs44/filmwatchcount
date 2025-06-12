@@ -1,6 +1,10 @@
 {% extends "filmwatchcount/list_template.html" %}
 {% block title %}Film groups{% endblock %}
 {% block heading %}Film groups{% endblock %}
+{% block search %}<form>
+<label>Group name <input type="text" name="q"/></label>
+<input type="submit" value="Search"/>
+</form>{% endblock %}
 {% block content %}
 {% if filmgroup_list %}
 <ul id="objectlist">

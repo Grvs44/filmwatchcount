@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404, render
 from django.views import View
 from .models import *
 from .owner import *
-from .pwaviews import *
 from .apiviews import *
 from django.urls import reverse
 from django.db.models import Q, Max, Count, Min
@@ -53,6 +52,9 @@ class FilmWatchListView(OwnerListView):
             else:
                 queryset = queryset.filter(
                     Film__FilmGroup_id=int(self.request.GET["group"]))
+        if 'q' in self.request.GET:
+            queryset = queryset.filter(
+                Film__Name__icontains=self.request.GET['q'])
         return queryset
 
 
@@ -109,6 +111,8 @@ class FilmListView(OwnerListView):
             else:
                 queryset = queryset.filter(
                     FilmGroup_id=int(self.request.GET["group"]))
+        if 'q' in self.request.GET:
+            queryset = queryset.filter(Name__icontains=self.request.GET['q'])
         return queryset
 
 
@@ -235,10 +239,13 @@ class FilmGroupListView(OwnerListView):
     model = FilmGroup
 
     def get_queryset(self):
+        queryset = super().get_queryset()
         if "group" in self.request.GET and self.request.GET["group"].isnumeric():
-            return super().get_queryset().filter(FilmGroup_id=int(self.request.GET["group"]))
-        else:
-            return super().get_queryset()
+            queryset = queryset.filter(
+                FilmGroup_id=int(self.request.GET["group"]))
+        if 'q' in self.request.GET:
+            queryset = queryset.filter(Name__icontains=self.request.GET['q'])
+        return queryset
 
 
 class FilmGroupDetailView(OwnerDetailView):
