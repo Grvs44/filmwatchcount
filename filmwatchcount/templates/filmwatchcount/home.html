@@ -1,15 +1,9 @@
 {% extends "filmwatchcount/template.html" %}
 {% load static %}
-{% block head %}
-<link rel="stylesheet" href="{% static '/filmwatchcount/css/home.css' %}" type="text/css"/>
-<script src="{% static '/filmwatchcount/js/home.js' %}" type="module"></script>
-{% endblock %}
 {% block body %}
-<body onload="Onload()">
+<body>
 <p>Welcome{% if request.user.first_name|length != 0 %}, {{request.user.first_name}}{% endif %}.
 <a href="{% url 'logout' 'filmwatchcount:home' %}"><button>Logout</button></a>
-<a href="{% url 'filmwatchcount:settings' %}"><button>Settings</button></a>
-<button id="installbtn">Install</button>
 <span id="msg"></span>
 </p>
 <h1>Film Watch Count</h1>

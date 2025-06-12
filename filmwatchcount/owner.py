@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class OwnerListView(LoginRequiredMixin, ListView):
+    paginate_by = 10
     def get_queryset(self):
         return super(OwnerListView, self).get_queryset().filter(User=self.request.user)
 

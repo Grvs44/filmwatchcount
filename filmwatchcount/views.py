@@ -303,8 +303,3 @@ class FilmGroupCountView(LoginRequiredMixin, View):
                 return HttpResponse(str(FilmWatch.objects.filter(Film__FilmGroup=filmgroup).count()), content_type="text/plain; charset=utf-8")
         else:
             raise Http404
-
-
-class SettingsView(LoginRequiredMixin, View):
-    def get(self, request):
-        return render(request, 'filmwatchcount/settings.html')
