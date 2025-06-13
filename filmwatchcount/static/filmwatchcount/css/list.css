@@ -6,3 +6,9 @@ h1{display:inline;}
 #filters{
 border:1px solid #000;
 }
+#page{
+background:#fff;
+position:sticky;
+top:0;
+left:0;
+}
