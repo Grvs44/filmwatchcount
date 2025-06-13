@@ -2,16 +2,19 @@
 {% block title %}Films{% endblock %}
 {% block heading %}Films{% endblock %}
 {% block search %}<form>
+<input type="submit" value="Search"/>
+<fieldset>
+<legend>Search</legend>
 <label>Film name <input type="text" name="q"/></label>
+</fieldset>
 <fieldset>
 <legend>Sort</legend>
 <button type="button" onclick="clear()">Clear</button>
-<p><label><input type="radio" name="sort" value="Name"/> Film name (ascending)</label></p>
-<p><label><input type="radio" name="sort" value="-Name"/> Film name (descending)</label></p>
-<p><label><input type="radio" name="sort" value="count"/> Watch count (ascending)</label></p>
-<p><label><input type="radio" name="sort" value="-count"/> Watch count (descending)</label></p>
+<label><input type="radio" name="sort" value="Name"/> Film name (ascending)</label>
+<label><input type="radio" name="sort" value="-Name"/> Film name (descending)</label>
+<label><input type="radio" name="sort" value="count"/> Watch count (ascending)</label>
+<label><input type="radio" name="sort" value="-count"/> Watch count (descending)</label>
 </fieldset>
-<input type="submit" value="Search"/>
 </form>{% endblock %}
 {% block content %}
 {% if film_list %}
