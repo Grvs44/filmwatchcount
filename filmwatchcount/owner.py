@@ -6,13 +6,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 class OwnerListView(LoginRequiredMixin, ListView):
     paginate_by = 10
+
     def get_queryset(self):
-        return super(OwnerListView, self).get_queryset().filter(User=self.request.user)
+        return super().get_queryset().filter(User=self.request.user)
 
 
 class OwnerDetailView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
-        return super(OwnerDetailView, self).get_queryset().filter(User=self.request.user)
+        return super().get_queryset().filter(User=self.request.user)
 
 
 class OwnerCreateView(LoginRequiredMixin, CreateView):
@@ -20,7 +21,7 @@ class OwnerCreateView(LoginRequiredMixin, CreateView):
         object = form.save(commit=False)
         object.User = self.request.user
         object.save()
-        return super(OwnerCreateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -30,7 +31,7 @@ class OwnerCreateView(LoginRequiredMixin, CreateView):
 
 class OwnerUpdateView(LoginRequiredMixin, UpdateView):
     def get_queryset(self):
-        return super(OwnerUpdateView, self).get_queryset().filter(User=self.request.user)
+        return super().get_queryset().filter(User=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -40,7 +41,7 @@ class OwnerUpdateView(LoginRequiredMixin, UpdateView):
 
 class OwnerDeleteView(LoginRequiredMixin, DeleteView):
     def get_queryset(self):
-        return super(OwnerDeleteView, self).get_queryset().filter(User=self.request.user)
+        return super().get_queryset().filter(User=self.request.user)
 
 
 class OwnerDuplicateView(OwnerCreateView):
