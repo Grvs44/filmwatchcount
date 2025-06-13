@@ -1,0 +1,35 @@
+# Adapted from https://github.com/Grvs44/Part-3-Project/blob/v1.0.1/.github/workflows/build_django.yml
+name: Build
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python version
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.13
+      - name: Install build
+        run: pip install build
+      - name: Build wheel
+        run: python -m build
+      - name: Upload to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ref=${{ github.ref }}
+          if [[ "$ref" == refs/tags/* ]]; then
+            tag="${ref#refs/tags/}"
+          else
+            tag=$(git ls-remote --tags --sort=committerdate | grep -o 'v.*' | sort -r | head -1)
+          fi
+          for file in ./dist/*; do
+            gh release upload $tag $file;
+          done
