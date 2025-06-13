@@ -55,6 +55,8 @@ class FilmWatchListView(OwnerListView):
         if 'q' in self.request.GET:
             queryset = queryset.filter(
                 Film__Name__icontains=self.request.GET['q'])
+        if 'sort' in self.request.GET:
+            queryset = queryset.order_by(self.request.GET['sort'])
         return queryset
 
 
@@ -113,6 +115,11 @@ class FilmListView(OwnerListView):
                     FilmGroup_id=int(self.request.GET["group"]))
         if 'q' in self.request.GET:
             queryset = queryset.filter(Name__icontains=self.request.GET['q'])
+        if 'sort' in self.request.GET:
+            field = self.request.GET['sort']
+            if field == 'count' or field == '-count':
+                queryset = queryset.annotate(count=F('filmwatch_set__count'))
+            queryset = queryset.order_by(field)
         return queryset
 
 
@@ -123,7 +130,7 @@ class FilmDetailView(OwnerDetailView):
         context = super().get_context_data(**kwargs)
         filmgrouplist = []
         filmgroup = context["film"].FilmGroup
-        while filmgroup != None:
+        while filmgroup is not None:
             filmgrouplist.append(filmgroup)
             filmgroup = filmgroup.FilmGroup
         context["filmgrouplist"] = filmgrouplist
@@ -245,6 +252,12 @@ class FilmGroupListView(OwnerListView):
                 FilmGroup_id=int(self.request.GET["group"]))
         if 'q' in self.request.GET:
             queryset = queryset.filter(Name__icontains=self.request.GET['q'])
+        if 'sort' in self.request.GET:
+            field = self.request.GET['sort']
+            if field.endswith('watch'):
+                queryset = queryset.annotate()
+            else:
+                queryset = queryset.order_by(field)
         return queryset
 
 

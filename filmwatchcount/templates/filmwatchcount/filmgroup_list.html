@@ -3,6 +3,12 @@
 {% block heading %}Film groups{% endblock %}
 {% block search %}<form>
 <label>Group name <input type="text" name="q"/></label>
+<fieldset>
+<legend>Sort</legend>
+<button type="button" onclick="clear()">Clear</button>
+<p><label><input type="radio" name="sort" value="Name"/> Group name (ascending)</label></p>
+<p><label><input type="radio" name="sort" value="-Name"/> Group name (descending)</label></p>
+</fieldset>
 <input type="submit" value="Search"/>
 </form>{% endblock %}
 {% block content %}

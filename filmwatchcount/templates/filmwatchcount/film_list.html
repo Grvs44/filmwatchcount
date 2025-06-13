@@ -3,6 +3,14 @@
 {% block heading %}Films{% endblock %}
 {% block search %}<form>
 <label>Film name <input type="text" name="q"/></label>
+<fieldset>
+<legend>Sort</legend>
+<button type="button" onclick="clear()">Clear</button>
+<p><label><input type="radio" name="sort" value="Name"/> Film name (ascending)</label></p>
+<p><label><input type="radio" name="sort" value="-Name"/> Film name (descending)</label></p>
+<p><label><input type="radio" name="sort" value="count"/> Watch count (ascending)</label></p>
+<p><label><input type="radio" name="sort" value="-count"/> Watch count (descending)</label></p>
+</fieldset>
 <input type="submit" value="Search"/>
 </form>{% endblock %}
 {% block content %}

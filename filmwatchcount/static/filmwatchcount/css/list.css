@@ -3,3 +3,6 @@ h1{display:inline;}
     font-size:1.5em;
     background-color:transparent;
 }
+#filters{
+border:1px solid #000;
+}
