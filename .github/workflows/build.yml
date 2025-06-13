@@ -1,4 +1,4 @@
-# Adapted from https://github.com/Grvs44/Part-3-Project/blob/v1.0.1/.github/workflows/build_django.yml
+# Adapted from https://github.com/Grvs44/inclusivevenues/blob/v1.0.1/.github/workflows/build_django.yml
 name: Build
 
 on:
