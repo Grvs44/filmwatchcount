@@ -18,6 +18,7 @@
 <a href="{% url 'filmwatchcount:filmwatch_list' %}?film={{film.id}}"><button>Show film watches</button></a>
 <button id="addcompare">Add to compare</button>
 </p>
+<p id="count"></p>
 {% if filmgrouplist|length != 0 %}
 <p>Group:
 {% if filmgrouplist|length == 1 %} <a href="{% url 'filmwatchcount:filmgroup_detail' film.FilmGroup.id %}">{{ film.FilmGroup }}</a>
