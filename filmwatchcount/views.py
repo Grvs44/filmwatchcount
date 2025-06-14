@@ -61,6 +61,12 @@ class FilmWatchListView(OwnerListView):
         field = self.request.GET.get('sort', None)
         if field:
             queryset = queryset.order_by(field)
+        from_date = self.request.GET.get('from', None)
+        if from_date:
+            queryset = queryset.filter(DateWatched__gte=from_date)
+        to_date = self.request.GET.get('to', None)
+        if to_date:
+            queryset = queryset.filter(DateWatched__lte=to_date)
         return queryset
 
 
@@ -272,7 +278,7 @@ class FilmGroupDetailView(OwnerDetailView):
         context = super().get_context_data(**kwargs)
         filmgrouplist = []
         filmgroup = context["filmgroup"].FilmGroup
-        while filmgroup != None:
+        while filmgroup is not None:
             filmgrouplist.append(filmgroup)
             filmgroup = filmgroup.FilmGroup
         context["filmgrouplist"] = filmgrouplist

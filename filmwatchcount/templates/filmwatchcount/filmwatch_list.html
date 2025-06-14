@@ -5,12 +5,14 @@
 <label>Film name <input type="search" name="q"/></label>
 <br/>
 <label>Sort by <select name="sort">
-<option>None</option>
+<option value>None</option>
 <option value="Film__Name">Film name (ascending)</option>
 <option value="-Film__Name">Film name (descending)</label>
 <option value="DateWatched">Watch date (ascending)</label>
 <option value="-DateWatched">Watch date (descending)</option>
 </select></label>
+<br/>
+Date range from <input type="date" name="from"/> to <input type="date" name="to"/>
 <br/>
 <input type="reset" value="Clear"/>
 <input type="submit" value="Apply"/>
