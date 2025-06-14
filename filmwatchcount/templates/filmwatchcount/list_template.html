@@ -4,8 +4,8 @@
 <link rel="stylesheet" type="text/css" href="{% static '/filmwatchcount/css/list.css' %}"/>{% endblock %}
 {% block body %}
 <body>
-<a href=".."><button id="back">←</button></a>
-<a href="create" id="add"><button>+</button></a>
+<a href=".."><button id="back" title="Home">&#x2302</button></a>
+<a href="create" id="add"><button title="Add">+</button></a>
 <h1>{% block heading %}{% endblock %} ({{ page_obj.paginator.count }})</h1>
 <div id="filters">
 <h2>Filters</h2>
