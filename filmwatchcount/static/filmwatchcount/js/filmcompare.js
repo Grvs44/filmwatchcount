@@ -52,7 +52,7 @@ function RestoreSave(btn){
 async function ToggleGraph(e){
     let graph = document.getElementById("graph")
     if(graph){
-        if(graph.style.display === "block"){
+        if(graph.style.display !== "none"){
             graph.style.display = "none"
             e.target.innerText = "Show graph"
         }
