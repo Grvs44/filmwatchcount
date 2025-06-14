@@ -19,7 +19,7 @@
 {% block content %}
 {% if film_list %}
 <ul id="objectlist">
-{% for film in film_list %}<li><a href="{% url 'filmwatchcount:film_detail' film.id %}">{{film}}</a></li>{% endfor %}
+{% for film in film_list %}<li><a href="{% url 'filmwatchcount:film_detail' film.id %}">{{film}}</a>{% if film.count %} - {{film.count}}{% endif %}</li>{% endfor %}
 </ul>
 {% else %}
 <p>No films</p>
