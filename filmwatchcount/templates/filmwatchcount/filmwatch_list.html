@@ -2,19 +2,18 @@
 {% block title %}Film watches{% endblock %}
 {% block heading %}Film watches{% endblock %}
 {% block search %}<form>
-<input type="submit" value="Search"/>
-<fieldset>
-<legend>Search</legend>
-<label>Film name <input type="text" name="q"/></label>
-</fieldset>
-<fieldset>
-<legend>Sort</legend>
-<button type="button" onclick="clear()">Clear</button>
-<label><input type="radio" name="sort" value="Film__Name"/> Film name (ascending)</label>
-<label><input type="radio" name="sort" value="-Film__Name"/> Film name (descending)</label>
-<label><input type="radio" name="sort" value="DateWatched"/> Watch date (ascending)</label>
-<label><input type="radio" name="sort" value="-DateWatched"/> Watch date (descending)</label>
-</fieldset>
+<label>Film name <input type="search" name="q"/></label>
+<br/>
+<label>Sort by <select name="sort">
+<option>None</option>
+<option value="Film__Name">Film name (ascending)</option>
+<option value="-Film__Name">Film name (descending)</label>
+<option value="DateWatched">Watch date (ascending)</label>
+<option value="-DateWatched">Watch date (descending)</option>
+</select></label>
+<br/>
+<input type="reset" value="Clear"/>
+<input type="submit" value="Apply"/>
 </form>{% endblock %}
 {% block content %}
 {% if filmwatch_list %}
