@@ -1,12 +1,15 @@
+# pylint:disable=no-member
+import json
+
+from django.db.models import Count, Max, Min, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.views import View
+
+from .apiviews import *
 from .models import *
 from .owner import *
-from .apiviews import *
-from django.urls import reverse
-from django.db.models import Q, Max, Count, Min
-import json
 
 
 class HomeView(LoginRequiredMixin, View):
@@ -117,8 +120,8 @@ class FilmListView(OwnerListView):
             queryset = queryset.filter(Name__icontains=self.request.GET['q'])
         if 'sort' in self.request.GET:
             field = self.request.GET['sort']
-            if field == 'count' or field == '-count':
-                queryset = queryset.annotate(count=F('filmwatch_set__count'))
+            if field in ('count', '-count'):
+                queryset = queryset.annotate(count=Count('filmwatch'))
             queryset = queryset.order_by(field)
         return queryset
 
