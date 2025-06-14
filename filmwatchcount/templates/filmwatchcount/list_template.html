@@ -7,7 +7,10 @@
 <a href=".."><button id="back">←</button></a>
 <a href="create" id="add"><button>+</button></a>
 <h1>{% block heading %}{% endblock %} ({{ page_obj.paginator.count }})</h1>
+<div id="filters">
+<h2>Filters</h2>
 {% block search %}{% endblock %}
+</div>
 <div id="page">
 {% if page_obj.has_previous %}
 <a href="{% querystring page=1 %}">&laquo; first</a>

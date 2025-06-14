@@ -2,8 +2,17 @@
 {% block title %}Film groups{% endblock %}
 {% block heading %}Film groups{% endblock %}
 {% block search %}<form>
-<label>Group name <input type="text" name="q"/></label>
 <input type="submit" value="Search"/>
+<fieldset>
+<legend>Search</legend>
+<label>Group name <input type="text" name="q"/></label>
+</fieldset>
+<fieldset>
+<legend>Sort</legend>
+<button type="button" onclick="clear()">Clear</button>
+<label><input type="radio" name="sort" value="Name"/> Group name (ascending)</label>
+<label><input type="radio" name="sort" value="-Name"/> Group name (descending)</label>
+</fieldset>
 </form>{% endblock %}
 {% block content %}
 {% if filmgroup_list %}

@@ -1,12 +1,15 @@
+# pylint:disable=no-member
+import json
+
+from django.db.models import Count, Max, Min, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.views import View
+
+from .apiviews import *
 from .models import *
 from .owner import *
-from .apiviews import *
-from django.urls import reverse
-from django.db.models import Q, Max, Count, Min
-import json
 
 
 class HomeView(LoginRequiredMixin, View):
@@ -55,6 +58,8 @@ class FilmWatchListView(OwnerListView):
         if 'q' in self.request.GET:
             queryset = queryset.filter(
                 Film__Name__icontains=self.request.GET['q'])
+        if 'sort' in self.request.GET:
+            queryset = queryset.order_by(self.request.GET['sort'])
         return queryset
 
 
@@ -113,6 +118,11 @@ class FilmListView(OwnerListView):
                     FilmGroup_id=int(self.request.GET["group"]))
         if 'q' in self.request.GET:
             queryset = queryset.filter(Name__icontains=self.request.GET['q'])
+        if 'sort' in self.request.GET:
+            field = self.request.GET['sort']
+            if field in ('count', '-count'):
+                queryset = queryset.annotate(count=Count('filmwatch'))
+            queryset = queryset.order_by(field)
         return queryset
 
 
@@ -123,7 +133,7 @@ class FilmDetailView(OwnerDetailView):
         context = super().get_context_data(**kwargs)
         filmgrouplist = []
         filmgroup = context["film"].FilmGroup
-        while filmgroup != None:
+        while filmgroup is not None:
             filmgrouplist.append(filmgroup)
             filmgroup = filmgroup.FilmGroup
         context["filmgrouplist"] = filmgrouplist
@@ -245,6 +255,12 @@ class FilmGroupListView(OwnerListView):
                 FilmGroup_id=int(self.request.GET["group"]))
         if 'q' in self.request.GET:
             queryset = queryset.filter(Name__icontains=self.request.GET['q'])
+        if 'sort' in self.request.GET:
+            field = self.request.GET['sort']
+            if field.endswith('watch'):
+                queryset = queryset.annotate()
+            else:
+                queryset = queryset.order_by(field)
         return queryset
 
 
