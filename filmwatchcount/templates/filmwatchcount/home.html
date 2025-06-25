@@ -2,10 +2,12 @@
 {% load static %}
 {% block body %}
 <body>
-<p>Welcome{% if request.user.first_name|length != 0 %}, {{request.user.first_name}}{% endif %}.
-<a href="{% url 'logout' 'filmwatchcount:home' %}"><button>Logout</button></a>
+<form action="{% url 'logout' 'filmwatchcount:home' %}" method="post">
+Welcome{% if request.user.first_name|length != 0 %}, {{request.user.first_name}}{% endif %}.
+{% csrf_token %}
+<button type="submit">Logout</button>
 <span id="msg"></span>
-</p>
+</form>
 <h1>Film Watch Count</h1>
 <ul>
     <li><a href="{% url 'filmwatchcount:filmgroup_list' %}">Film groups</a></li>
