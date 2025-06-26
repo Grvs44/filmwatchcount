@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import View
 
+from . import VERSION
 from .apiviews import *
 from .models import *
 from .owner import *
@@ -14,7 +15,7 @@ from .owner import *
 
 class HomeView(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, "filmwatchcount/home.html")
+        return render(request, "filmwatchcount/home.html", {"version": VERSION})
 
 
 class DeleteRedirectView(LoginRequiredMixin, View):

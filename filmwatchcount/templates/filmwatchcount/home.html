@@ -15,5 +15,6 @@ Welcome{% if request.user.first_name|length != 0 %}, {{request.user.first_name}}
     <li><a href="{% url 'filmwatchcount:filmwatch_list' %}">Film watches</a></li>
     <li><a href="{% url 'filmwatchcount:filmcompare' %}">Film comparison</a></li>
 </ul>
+<small>v{{ version }}</small>
 </body>
 {% endblock %}
